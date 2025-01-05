@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 const BookingDetailsRight = ({ totalPassenger, setTotalPassenger, onContactDetailsChange, passengers, setPassengers, addPassenger }) => {
     const location = useLocation();
     const { from, to, departureDate, returnDate } = location.state || {};
-
+    console.log(passengers);
     const handleClose = (indexs) => {
         console.log(indexs);
         const newPassengers = passengers.filter((items, index) => index !== indexs);
@@ -43,9 +43,9 @@ const BookingDetailsRight = ({ totalPassenger, setTotalPassenger, onContactDetai
         <div className="w-[100%] sm:w-[68.8%] md:w-[68.8%] lg:w-[68.8%] xl:w-[68.8%]">
             <div className="left-detail mt-10">
                 <div className="flex justify-between">
-                    <div className="w-[33%] borde-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Routes</div>
-                    <div className="w-[33%] border-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Passenger</div>
-                    <div className="w-[33%] border-2 border-[#ec601d] rounded-md text-center p-3">Additional</div>
+                    {/* <div className="w-[33%] borde-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Routes</div> */}
+                    <div className="w-full border-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Passenger Details</div>
+                    {/* <div className="w-[33%] border-2 border-[#ec601d] rounded-md text-center p-3">Additional</div> */}
                 </div>
                 <div className="pt-6 px-2">
                     <div className="flex flex-col gap-6">
@@ -260,11 +260,11 @@ const BookingDetailsRight = ({ totalPassenger, setTotalPassenger, onContactDetai
                                         </select>
                                         <input type="text" name="firstName" placeholder="First Name" className="w-full border rounded-md p-3" value={passenger.firstName} onChange={(e) => handleInputChange(index, e)} />
                                     </div>
-                                    <input type="date" name="dob" placeholder="DOB" className="w-full border rounded-md p-3" value={passenger.dob} onChange={(e) => handleInputChange(index, e)} />
+                                    {/* <input type="date" name="dob" placeholder="DOB" className="w-full border rounded-md p-3" value={passenger.dob} onChange={(e) => handleInputChange(index, e)} /> */}
                                 </div>
                                 <div className="right w-[50%] flex flex-col gap-6">
                                     <input type="text" name="lastName" placeholder="Last Name" className="border rounded-md p-3" value={passenger.lastName} onChange={(e) => handleInputChange(index, e)}/>
-                                    <select className="dropdown border rounded-md p-3" value={passenger.nationality || "Indian"} onChange={(e) => handleInputChange(index, e)} name="nationality">
+                                    <select className="dropdown border rounded-md p-3" value={passenger.nationality} onChange={(e) => handleInputChange(index, e)} name="nationality">
                                         <option value="" disabled selected>Select Nationality</option>
                                         <option value="Afghan">Afghan</option>
                                         <option value="Albanian">Albanian</option>

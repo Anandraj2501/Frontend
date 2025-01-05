@@ -34,7 +34,7 @@ const BookingDetails = () => {
     const addPassenger = () => {
         setPassengers([
             ...passengers,
-            { title: 'Mr', firstName: '', lastName: '', dob: '', nationality: '' }
+            { title: 'Mr', firstName: '', lastName: '', dob: '', nationality: 'Indian' }
         ]);
         setTotalPassenger(totalPassenger + 1);
 
@@ -171,7 +171,7 @@ const BookingDetails = () => {
         }
         for (let i = 0; i < passengers.length; i++) {
             const passenger = passengers[i];
-            if (!passenger.title || !passenger.firstName || !passenger.lastName || !passenger.dob || !passenger.nationality) {
+            if (!passenger.title || !passenger.firstName || !passenger.lastName || !passenger.nationality) {
                 toast.error(`Please fill in all details for passenger ${i + 1}.`);
                 return false;
             }

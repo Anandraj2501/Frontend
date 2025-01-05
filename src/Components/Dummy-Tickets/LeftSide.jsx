@@ -118,12 +118,12 @@ const LeftSide = () => {
             <div className="form w-[100%]  sm:w-[100%]  md:w-[100%]  lg:w-[100%] xl:w-[100%]  border rounded-md bg-white p-3">
                 <div className="fhb-container flex bg-[#efefef] py-2 px-3 justify-between rounded-lg">
                     <button
-                        className={`text-center w-[33%] p-2 transition-colors duration-400 ease-linear rounded-md ${activeButton === 'Flight' ? 'bg-[#cc2c21] hover:bg-[#ad0e03] text-white' : 'bg-white text-black'}`}
+                        className={`text-center w-full p-2 transition-colors duration-400 ease-linear rounded-md ${activeButton === 'Flight' ? 'bg-[#cc2c21] hover:bg-[#ad0e03] text-white' : 'bg-white text-black'}`}
                         onClick={() => setActiveButton('Flight')}
                     >
                         Flight
                     </button>
-                    <button
+                    {/* <button
                         className={`text-center w-[33%] p-2 transition-colors duration-400 ease-linear rounded-md ${activeButton === 'Hotels' ? 'bg-[#cc2c21] hover:bg-[#ad0e03] text-white' : 'bg-white text-black'}`}
                         onClick={() => setActiveButton('Hotels')}
                     >
@@ -134,7 +134,7 @@ const LeftSide = () => {
                         onClick={() => setActiveButton('Both')}
                     >
                         Both
-                    </button>
+                    </button> */}
                 </div>
                 <div className="subparts mt-4 px-2">
                     <div className="fhb-container flex bg-[#efefef] py-2 px-4 justify-between rounded-full">
@@ -219,7 +219,7 @@ const LeftSide = () => {
                                 <input type="date" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" placeholder="Return Date" onChange={(e) => setReturnDate(e.target.value)} />
                             </>
                         )}
-                        <button onClick={handleValidation} className="bg-[#cc2c21] hover:bg-[#ad0e03] text-white p-3 mt-2 rounded-md text-center">BUY DUMMY TICKET</button>
+                        <button onClick={handleValidation} className="bg-[#cc2c21] hover:bg-[#ad0e03] text-white p-3 mt-2 rounded-md text-center">Search Flights</button>
                     </div>
                 </div>
             </div>
