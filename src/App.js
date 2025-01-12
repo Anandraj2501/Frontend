@@ -12,14 +12,21 @@ import DownloadTicketPage from './Components/Payment/DownloadTicketPage';
 import AboutUs from './Components/About/AboutUs';
 import FAQs from './Components/FAQs/FAQs';
 import AdminMain from "./Components/Admin/AdminMain";
+import ContactUs from './Components/Contact/ContactUs';
+import TermsConditions from './Components/TermsConditions';
+import Privacy from './Components/Privacy';
 
 function App() {
   return (
     <div className="App">
       <Routes>
+  
         <Route path="/" element={<DummyTickets />} />
         <Route path='/about-us' element={<AboutUs />} />
+        <Route path='/contact-us' element={<ContactUs/>}/>
         <Route path='/faqs' element={<FAQs />} />
+        <Route path='/terms-conditions' element={<TermsConditions/>}/>
+        <Route path='/Privacy' element={<Privacy/>}/>
         <Route path='/booking-details' element={<BookingDetails />} />
         <Route path='/payment-page' element={<PaymentComponent />} />
         <Route path="/login" element={<Login />} />

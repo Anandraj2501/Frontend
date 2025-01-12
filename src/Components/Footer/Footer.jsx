@@ -1,68 +1,42 @@
-import { PiCopyrightLight } from "react-icons/pi";
+import React from 'react'
+
 const Footer = () => {
+    const footnavigation = [
+        { name: 'Home', href: '/'},
+        //{ name: 'About Us', href: '/about-us' },
+        { name: 'FAQs', href: '/faqs' },
+        { name: 'Contact Us', href: '/contact-us'},
+        { name: 'Terms & Conditions', href: '/terms-conditions'},
+        { name: 'Privacy', href: '/privacy'},
+        { name: 'Blog', href: '/blog'},
+    
+      
+      ]
     return (
        <>
        <div className="h-[120px]  sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] 2xl:w-[100%] px-3 bg-[#d3bdbb] bg-no-repeat bg-cover " style={{ backgroundImage: 'url(images/footer-after-image.webp)' }}></div>
         <div className="px-[0] bg-[#fef6f0]" >
-            {/* <div className="flex text-white py-12 justify-between">
-                <div className="flex justify-between w-[60%]">
-                    <div className=" flex flex-col gap-y-3 text-lg font-bold">
-                        <span className="text-[#ec601d]">Explore</span>
-                        <span>Trip Stories</span>
-                        <span>Activities</span>
-                        <span>Hotels & Stays</span>
-                        <span>Cities</span>
-                        <span>Offers</span>
-                    </div>
-                    <div className=" flex flex-col gap-y-3 text-lg font-bold">
-                        <span className="text-[#ec601d]">Explore</span>
-                        <span>Trip Stories</span>
-                        <span>Activities</span>
-                        <span>Hotels & Stays</span>
-                        <span>Cities</span>
-                        <span>Offers</span>
-                    </div>
-                    <div className=" flex flex-col gap-y-3 text-lg font-bold">
-                        <span className="text-[#ec601d]">Explore</span>
-                        <span>Trip Stories</span>
-                        <span>Activities</span>
-                        <span>Hotels & Stays</span>
-                        <span>Cities</span>
-                        <span>Offers</span>
-                    </div>
-                    <div className="flex flex-col gap-y-3 text-lg font-bold">
-                        <span className="text-[#ec601d]">Explore</span>
-                        <span>Trip Stories</span>
-                        <span>Activities</span>
-                        <span>Hotels & Stays</span>
-                        <span>Cities</span>
-                        <span>Offers</span>
-                    </div>
-                </div>
-
-                <div className="flex flex-col w-[30%] gap-y-3 text-lg font-bold">
-                    <span>Subscribe To Our Newsletter</span>
-                    <span className=" font-thin">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis facere iste reprehenderit nostrum provident laudantium? Vel modi nostrum nihil doloribus.</span>
-                    <div className="flex justify-between">
-                        <input type="text" placeholder="Email Address" className="rounded-md bg-[#3f3f46] font-thin text-[#bbb9bd] outline-none py-1 px-5 w-[70%]" />
-                        <button className="ml-6 bg-[#bc0c5f] py-1 px-5 rounded-md">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-            <hr className=" border-[#3f3f46]" /> */}
             <div className="py-5 text-black flex flex-wrap justify-center items-center">
-                <span className="px-5 border-r">Home</span>
-                <span className="px-5 border-r">FAQ</span>
-                <span className="border-r px-5 ">Contact</span>
-                <span className="px-5 border-r">Terms & Conditions</span>
-                <span className="px-5 border-r">Privacy</span>
-                <span className="px-5 border-r">Blog</span>
+            {footnavigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    aria-current={item.current ? 'page' : undefined}
+                    style={{ whiteSpace:'nowrap'}}
+                    className={'px-3 py-0 text-sm font-medium'}>
+                    {item.name}
+                  </a>
+                ))}
+                
+             
                 <span className="px-5 border-r flex items-center">
-                    <PiCopyrightLight size={30} />
-                    <span> Copyrights 2024 TripCafe.net</span> </span>
+                    
+                    <span  className='text-center'> Copyrights &copy; 2024 TripCafe Holidays. All Rights Reserved
+                    </span> </span>
 
                 <span className="flex px-5">
-                    <img src="https://alike.io/images/social-icon/whatsapp.svg" alt="" className="w-6" />
+                
+                    <a href="//www.dmca.com/Protection/Status.aspx?ID=aa066661-b49f-4618-943c-f9a7e87f3f0f" title="DMCA.com Protection Status" className="dmca-badge"> <img src ="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=aa066661-b49f-4618-943c-f9a7e87f3f0f"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
                 </span>
             </div>
         </div>

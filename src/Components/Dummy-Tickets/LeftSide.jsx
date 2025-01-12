@@ -146,21 +146,22 @@ const LeftSide = () => {
                         </label>
                     </div>
                     <div className="mt-8 gap-y-3 flex  flex-col">
-                        <div className="relative">
+                    <div  className="flex items-end flex-col sm:flex-row md:flex-row w-full">
+                        <div className="relative  w-full">
                             <span className="text-[#cc2c21]">From</span>
                             <input
                                 type="text"
                                 value={from}
                                 onChange={(e) => setFrom(e.target.value)}
-                                className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"
+                                className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"
                             />
                             {fromResults.length > 0 && (
-                                <ul className="p-[10px] absolute bg-[#faebd7] w-full rounded-md z-10">
+                                <ul className="px-[10px] py-[5px] absolute bg-[#faebd7] w-full rounded-md z-10">
                                     {fromResults.slice(0, 5).map((airport) => (
-                                        <li key={airport.id} onClick={() => handleSelectFrom(airport)}>
+                                        <li className="bg-[#ccc] my-1 p-1 rounded-md" key={airport.id} onClick={() => handleSelectFrom(airport)}>
                                             <div>
-                                                <p className="text-xl font-normal">{airport.name}</p>
-                                                <div className="flex justify-between my-3">
+                                                <p className="text-[.8rem] font-normal">{airport.name}</p>
+                                                <div className="flex justify-between text-[.6rem]">
                                                     <span>{airport.city.name}</span>
                                                     <span>-</span>
                                                     <span>{airport.code}</span>
@@ -171,22 +172,22 @@ const LeftSide = () => {
                                 </ul>
                             )}
                         </div>
-
-                        <div className="relative">
+                         <div className="w-[100%] sm:w-[100px] md:w-[100px] lg:w-[100px] pb-2  flex  justify-center"><img src="images/exchange-icon.svg" className="w-[50px] sm:w-[100%] md:w-[100%] lg:w-[100%] px-2" alt="" /></div>
+                        <div className="relative  w-full">
                             <span className="text-[#cc2c21]">To</span>
                             <input
                                 type="text"
                                 value={to}
                                 onChange={(e) => setTo(e.target.value)}
-                                className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"
+                                className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"
                             />
                             {toResults.length > 0 && (
-                                <ul className="p-[10px] absolute bg-[#faebd7] w-full rounded-md z-10">
+                                <ul className="px-[10px] py-[5px]  absolute bg-[#faebd7] w-full rounded-md z-10">
                                     {toResults.slice(0, 5).map((airport) => (
-                                        <li key={airport.id} onClick={() => handleSelectTo(airport)}>
-                                            <div>
-                                                <p className="text-xl font-normal">{airport.name}</p>
-                                                <div className="flex justify-between my-3">
+                                        <li className="bg-[#ccc] my-1 p-1 rounded-md" key={airport.id} onClick={() => handleSelectTo(airport)}>
+                                            <div >
+                                                <p className="text-[.8rem] font-normal">{airport.name}</p>
+                                                <div className="flex justify-between text-[.6rem]">
                                                     <span>{airport.city.name}</span>
                                                     <span>-</span>
                                                     <span>{airport.code}</span>
@@ -197,6 +198,9 @@ const LeftSide = () => {
                                 </ul>
                             )}
                         </div>
+                    </div>
+
+
                         <span className="text-[#cc2c21]">Departure</span>
                         <input type="date" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" placeholder="Departure Date" onChange={(e) => setDepartureDate(e.target.value)} />
                         {tripType === 'Round Trip' && (

@@ -38,7 +38,7 @@ const Navbar = () => {
     { name: 'Dummy Tickets', href: '/', current: true },
     { name: 'About Us', href: '/about-us', current: false },
     { name: 'Faq', href: '/faqs', current: false },
-    { name: 'Contact Us', href: '#', current: false },
+    { name: 'Contact Us', href: '/contact-us', current: false },
 
 
   ]

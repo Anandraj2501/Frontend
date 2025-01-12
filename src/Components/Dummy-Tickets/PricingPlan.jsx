@@ -17,7 +17,7 @@ const PricingPlan = () => {
             <div className='card-img'>
                 <img src="images/flight-booking.jpg" alt=''/>
             </div>
-           <div className='flex  justify-center text-center sm:text-center md:text-center lg:text-center sl:text-center'><div className='text-3xl md:text-3xl lg:text-3xl xl:text-3xl font-[600]'>&#8377;15<small style={{ fontSize: '15px' }}>/Per Person or Child</small></div></div>
+           <div className='flex  justify-center text-center sm:text-center md:text-center lg:text-center sl:text-center'><div className='text-3xl md:text-3xl lg:text-3xl xl:text-3xl font-[600]'>&#8377;500<small style={{ fontSize: '15px' }}>/Per Person or Child</small></div></div>
            <ul className='p-0 m-0 w-[100%]'>
               <li className='border-b border-b-slate-300 border-b-1 text-center py-4'>Instant Download On Checkout </li>
               <li className='border-b border-b-slate-300 border-b-1 text-center py-4'>No Fee To Change Date </li>
@@ -35,7 +35,7 @@ const PricingPlan = () => {
                 <img src="images/hotal-booking.jpg" alt=''/>
             </div>
             
-            <div className='flex  justify-center text-center sm:text-center md:text-center lg:text-center sl:text-center'><div className='text-3xl md:text-3xl lg:text-3xl xl:text-3xl font-[600]'>&#8377;15<small style={{ fontSize: '15px' }}>/Per Person or Child</small></div></div>
+            <div className='flex  justify-center text-center sm:text-center md:text-center lg:text-center sl:text-center'><div className='text-3xl md:text-3xl lg:text-3xl xl:text-3xl font-[600]'>&#8377;500<small style={{ fontSize: '15px' }}>/Per Person or Child</small></div></div>
            <ul className='p-0 m-0 w-[100%]'>
               <li className='border-b border-b-slate-300 border-b-1 text-center py-4'>Instant Download On Checkout </li>
               <li className='border-b border-b-slate-300 border-b-1 text-center py-4'>No Fee To Change Date </li>
