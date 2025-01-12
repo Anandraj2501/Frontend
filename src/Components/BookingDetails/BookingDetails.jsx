@@ -8,6 +8,7 @@ import axios from "axios";
 import Footer from "../Footer/Footer";
 import { ToastContainer, toast } from 'react-toastify';
 import Navbar from "../Navbar/Navbar";
+import { TEQUILA_URL } from "../../utils/url";
 const BookingDetails = () => {
     const location = useLocation();
     const [totalPassenger, setTotalPassenger] = useState(0);
@@ -89,7 +90,7 @@ const BookingDetails = () => {
         const toCode = extractCode(to);
 
         if (fromCode && toCode && tripType === "one Way") {
-            const airlines = await axios.get(`https://api.tequila.kiwi.com/v2/search?fly_from=${fromCode}&fly_to=${toCode}&date_from=${formattedDepartureDate}&date_to=${formattedDepartureDate}&ret_from_diff_city=true&ret_to_diff_city=true&one_for_city=0&one_per_date=0&only_working_days=false&only_weekends=false&limit=2`, {
+            const airlines = await axios.get(`${TEQUILA_URL}/v2/search?fly_from=${fromCode}&fly_to=${toCode}&date_from=${formattedDepartureDate}&date_to=${formattedDepartureDate}&ret_from_diff_city=true&ret_to_diff_city=true&one_for_city=0&one_per_date=0&only_working_days=false&only_weekends=false&limit=2`, {
                 headers: {
                     'apikey': 'nst7nQCznwAahbh0dsvDFx9bh0qxC4lm'
                 }
@@ -101,7 +102,7 @@ const BookingDetails = () => {
                 setDeparture(getTotalTime(flightData?.duration?.total));
             }
         } else {
-            const airlines = await axios.get(`https://api.tequila.kiwi.com/v2/search?fly_from=${fromCode}&fly_to=${toCode}&date_from=${formattedDepartureDate}&date_to=${formattedDepartureDate}&return_from=${formattedReturnDate}&return_to=${formattedReturnDate}&ret_from_diff_city=true&ret_to_diff_city=true&one_for_city=0&one_per_date=0&only_working_days=false&only_weekends=false&limit=2`, {
+            const airlines = await axios.get(`${TEQUILA_URL}/v2/search?fly_from=${fromCode}&fly_to=${toCode}&date_from=${formattedDepartureDate}&date_to=${formattedDepartureDate}&return_from=${formattedReturnDate}&return_to=${formattedReturnDate}&ret_from_diff_city=true&ret_to_diff_city=true&one_for_city=0&one_per_date=0&only_working_days=false&only_weekends=false&limit=2`, {
                 headers: {
                     'apikey': 'nst7nQCznwAahbh0dsvDFx9bh0qxC4lm'
                 }

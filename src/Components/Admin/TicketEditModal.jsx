@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import axios from "axios";
+import { BACKEND_URL } from '../../utils/url';
 
 const style = {
     position: 'absolute',
@@ -17,14 +18,15 @@ const style = {
     p: 4,
 };
 
-const TicketEditModal = ({ open, handleOpen, setOpen, editTicket }) => {
+const TicketEditModal = ({ open, handleOpen, setOpen, editTicket, onUpdate }) => {
     const [passengerDetails, setPassengerDetails] = useState([]);
+    const [pnr,setPnr] = useState(editTicket?.pnr);
 
     useEffect(() => {
         if (editTicket?.passengers) {
             setPassengerDetails(editTicket.passengers);
         }
-        console.log(editTicket);
+        setPnr(editTicket?.pnr || "");
     }, [editTicket]);
 
     const handleClose = () => setOpen(false);
@@ -37,36 +39,27 @@ const TicketEditModal = ({ open, handleOpen, setOpen, editTicket }) => {
     };
 
     const handleSave = async() => {
-        console.log(editTicket);
-        console.log('Updated Passenger Details:', passengerDetails);
         handleClose();
         try {
-            const token = localStorage.getItem("token");
-            const response = await axios.post(`http://localhost:8080/api/updatepassengers/${editTicket._id}`, passengerDetails, {
+            const response = await axios.put(`${BACKEND_URL}/booking/updateBookingData/${editTicket._id}`, {passengerDetails:passengerDetails,pnr:pnr}, {
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
                 },
             } // Sending passengers data in the request body
             );
     
-            console.log("Passenger details updated successfully:", response.data);
-        } catch (error) {
-            if (error.response) {
-                // Server responded with a status other than 2xx
-                console.error("Error response:", error.response.data);
-            } else if (error.request) {
-                // Request was made, but no response received
-                console.error("Error request:", error.request);
-            } else {
-                // Something happened in setting up the request
-                console.error("Error message:", error.message);
+            // Call onUpdate to update the MainSection state
+            if (onUpdate) {
+                onUpdate(response.data.updatedOrder); // Pass the updated ticket to MainSection
             }
+        } catch (error) {
+            
         }
     };
 
-    const handleRedirect = ()=>{
-
+    const handlePnrChange =(event)=>{
+        const{value} = event.target;
+        setPnr(value);
     }
 
     return (
@@ -94,7 +87,7 @@ const TicketEditModal = ({ open, handleOpen, setOpen, editTicket }) => {
                                     <th className="px-4 py-2 text-left">Title</th>
                                     <th className="px-4 py-2 text-left">First Name</th>
                                     <th className="px-4 py-2 text-left">Last Name</th>
-                                    <th className="px-4 py-2 text-left">Date of Birth</th>
+                                    <th className="px-4 py-2 text-left">PNR</th>
                                     <th className="px-4 py-2 text-left">Nationality</th>
                                 </tr>
                             </thead>
@@ -128,12 +121,20 @@ const TicketEditModal = ({ open, handleOpen, setOpen, editTicket }) => {
                                         <td>
                                             <input
                                                 className="px-4 py-2"
+                                                name="pnr"
+                                                value={pnr}
+                                                onChange={(e) => handlePnrChange(e)}
+                                            />
+                                        </td>
+                                        {/* <td>
+                                            <input
+                                                className="px-4 py-2"
                                                 name="dob"
                                                 type="date"
                                                 value={new Date(passenger.dob).toISOString().split('T')[0]}
                                                 onChange={(e) => handleInputChange(index, e)}
                                             />
-                                        </td>
+                                        </td> */}
                                         <td>
                                             <select className="dropdown border rounded-md p-3"
                                                 name="nationality"
@@ -338,12 +339,12 @@ const TicketEditModal = ({ open, handleOpen, setOpen, editTicket }) => {
                         <div className='flex items-center gap-5'>
                             <span><img src="/images/arrivalplane.svg" alt="" className='w-10' /></span>: {editTicket?.travellingDetails?.to}
                         </div>
-                        <Typography variant="body1" className="info-row">
+                        {/* <Typography variant="body1" className="info-row">
                             <strong>Departure Date:</strong> {new Date(editTicket?.travellingDetails?.departureDate).toLocaleDateString()}
                         </Typography>
                         <Typography variant="body1" className="info-row">
                             <strong>Return Date:</strong> {editTicket?.travellingDetails?.returnDate ? new Date(editTicket?.travellingDetails?.returnDate).toLocaleDateString() : 'N/A'}
-                        </Typography>
+                        </Typography> */}
                         <Typography variant="body1" className="info-row">
                             <strong>Trip Type:</strong> {editTicket?.travellingDetails?.tripType}
                         </Typography>
@@ -360,7 +361,7 @@ const TicketEditModal = ({ open, handleOpen, setOpen, editTicket }) => {
                             Save Changes
                         </Button>
                         <Button variant="outlined" >
-                            <a href={`http://localhost:3000/downloadTicket?txnId=${editTicket?.txnid}`} className="download-button">Download PDF</a>
+                            <a href={`http://localhost:3000/downloadTicket?txnId=${editTicket?.transactionId}`} className="download-button">Download PDF</a>
                         </Button>
                     </div>
                 </Box>

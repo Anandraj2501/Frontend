@@ -3,6 +3,7 @@ import axios from "axios";
 
 import {  useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { TEQUILA_URL } from "../../utils/url";
 
 const LeftSide = () => {
 
@@ -19,7 +20,7 @@ const LeftSide = () => {
 
     useEffect(() => {
         if (from.length > 2) {
-            axios.get(`https://api.tequila.kiwi.com/locations/query?term=${from}&locale=en-US&location_types=airport&limit=20&active_only=true`, {
+            axios.get(`${TEQUILA_URL}/locations/query?term=${from}&locale=en-US&location_types=airport&limit=20&active_only=true`, {
                 headers: {
                     'apikey': 'nst7nQCznwAahbh0dsvDFx9bh0qxC4lm'
                 }
@@ -37,7 +38,7 @@ const LeftSide = () => {
 
     useEffect(() => {
         if (to.length > 2) {
-            axios.get(`https://api.tequila.kiwi.com/locations/query?term=${to}&locale=en-US&location_types=airport&limit=20&active_only=true`, {
+            axios.get(`${TEQUILA_URL}/locations/query?term=${to}&locale=en-US&location_types=airport&limit=20&active_only=true`, {
                 headers: {
                     'apikey': 'nst7nQCznwAahbh0dsvDFx9bh0qxC4lm'
                 }
@@ -62,22 +63,7 @@ const LeftSide = () => {
         setTo(`${airport.name} (${airport.code})`);
         setToResults([]);
     };
-    // const handleValidation = () => {
-    //     if (!from || !to || !departueDate || (tripType === 'Round Trip' && !returnDate)) {
-    //         alert('Please fill in all fields.');
-    //     } else if(dep)
-    //     else {
-    //         navigate("/booking-details", {
-    //             state: {
-    //                 from,
-    //                 to,
-    //                 departureDate: departueDate,
-    //                 returnDate: tripType === 'Round Trip' ? returnDate : null,
-    //                 tripType : tripType === 'Round Trip' ? tripType: null
-    //             }
-    //         });
-    //     }
-    // };
+
     const handleValidation = () => {
         // Get today's date
         const today = new Date();

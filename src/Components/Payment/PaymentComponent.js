@@ -3,6 +3,7 @@ import { json, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
+import { BACKEND_URL } from "../../utils/url";
 
 const PaymentComponent = () => {
     const navigate = useNavigate();
@@ -31,12 +32,10 @@ const PaymentComponent = () => {
 
     const paymentReq = async () => {
         try {
-            const token = localStorage.getItem("token");
             console.log(data, "sent");
-            const response = await axios.post(`http://localhost:8080/api/payment`, JSON.stringify(data), {
+            const response = await axios.post(`${BACKEND_URL}/initiatePayment`, JSON.stringify(data), {
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
                 },
             });
             console.log(response);
@@ -111,8 +110,8 @@ const PaymentComponent = () => {
                         <input type="hidden" name="hash" value={hash} />
                         <input type="hidden" name="udf1" value={JSON.stringify(passengers)} />
                         <input type="hidden" name="udf2" value={JSON.stringify(travellingDetails)} />
-                        <input type="hidden" name="surl" value="http://localhost:8080/api/test" />
-                        <input type="hidden" name="furl" value="http://localhost:8080/api/testFailure" />
+                        <input type="hidden" name="surl" value={`${BACKEND_URL}/initiatePayment/success`} />
+                        <input type="hidden" name="furl" value={`${BACKEND_URL}/initiatePayment/failed`} />
                         <button
                             type="submit"
                             className="bg-[#ec601d]  text-black px-6 py-3 rounded-md hover:text-white transition duration-300"
