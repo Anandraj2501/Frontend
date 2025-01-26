@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import ScrollToTop from "react-scroll-to-top";
 const PricingPlan = () => {
 
 
@@ -23,11 +23,7 @@ const PricingPlan = () => {
               <li className='border-b border-b-slate-300 border-b-1 text-center py-4'>No Fee To Change Date </li>
               <li className=' text-center py-4'>Price is for oneway and round-trip. Flight reservation for multi-city available at extra cost.</li>
            </ul>
-           <Link to="/">
-                            <button className=" w-[100%] border rounded-xl bg-[#cc2c21] text-white font-bold py-3 hover:bg-white hover:text-black  hover:border  hover:border-[#cc2c21]  hover:border-1">
-                            Get Started
-                            </button>
-                        </Link>
+           <ScrollToTop smooth component={<button className=" w-[100%] border rounded-xl bg-[#cc2c21] text-white font-bold py-3 hover:bg-white hover:text-black  hover:border  hover:border-[#cc2c21]  hover:border-1"> Get Started</button>} className='!static !w-[100%]' ></ScrollToTop>
            </div>
            <div className='rounded-[20px] w-[100%] sm:w-[25%] md:w-[25%] lg:w-[25%] xl:w-[25%] border-solid border-zinc-200 border-2 p-6  grid grid-rows  gap-3 bg-white shadow-md'>
            <h3  className='text-2xl md:text-2.5xl lg:text-2.5xl xl:text-2.5xl font-bold  text-center sm:text-center md:text-center lg:text-center sl:text-center'>Hotel Reservation</h3>
@@ -41,11 +37,7 @@ const PricingPlan = () => {
               <li className='border-b border-b-slate-300 border-b-1 text-center py-4'>No Fee To Change Date </li>
               <li className=' text-center py-4'>Price is for oneway and round-trip. Flight reservation for multi-city available at extra cost.</li>
            </ul>
-           <Link to="/">
-                            <button className=" w-[100%] border rounded-xl bg-[#cc2c21] text-white font-bold py-3 hover:bg-white hover:text-black  hover:border  hover:border-[#cc2c21]  hover:border-1">
-                            Get Started
-                            </button>
-                        </Link>
+           <ScrollToTop smooth component={<button className=" w-[100%] border rounded-xl bg-[#cc2c21] text-white font-bold py-3 hover:bg-white hover:text-black  hover:border  hover:border-[#cc2c21]  hover:border-1"> Get Started</button>} className='!static !w-[100%]' ></ScrollToTop>
            </div>
         
            </div>

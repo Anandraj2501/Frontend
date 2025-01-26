@@ -102,19 +102,20 @@ const LeftSide = () => {
     return (
         <div className="right w-[100%] sm:w-[100%]  md:w-[40%]  lg:w-[40%] xl:w-[40%] font-bold">
             <div className="form w-[100%]  sm:w-[100%]  md:w-[100%]  lg:w-[100%] xl:w-[100%]  border rounded-md bg-white p-3">
-                <div className="fhb-container flex bg-[#efefef] py-2 px-3 justify-between rounded-lg">
+                <div className="fhb-container bg-[#efefef] py-2 px-3 rounded-lg flex flex-col sm:flex-row md:flex-row w-full gap-x-3">
                     <button
-                        className={`text-center w-full p-2 transition-colors duration-400 ease-linear rounded-md ${activeButton === 'Flight' ? 'bg-[#cc2c21] hover:bg-[#ad0e03] text-white' : 'bg-white text-black'}`}
+                        className={`text-center w-[50%] p-2 transition-colors duration-400 ease-linear rounded-md ${activeButton === 'Flight' ? 'bg-[#cc2c21] hover:bg-[#ad0e03] text-white' : 'bg-white text-black'}`}
                         onClick={() => setActiveButton('Flight')}
                     >
                         Flight
                     </button>
-                    {/* <button
-                        className={`text-center w-[33%] p-2 transition-colors duration-400 ease-linear rounded-md ${activeButton === 'Hotels' ? 'bg-[#cc2c21] hover:bg-[#ad0e03] text-white' : 'bg-white text-black'}`}
+                    <button
+                        className={`text-center w-[50%] p-2 transition-colors duration-400 ease-linear rounded-md ${activeButton === 'Hotels' ? 'bg-[#cc2c21] hover:bg-[#ad0e03] text-white' : 'bg-white text-black'}`}
                         onClick={() => setActiveButton('Hotels')}
                     >
                         Hotels
                     </button>
+                    {/*
                     <button
                         className={`text-center w-[33%] p-2 transition-colors duration-400 ease-linear rounded-md ${activeButton === 'Both' ? 'bg-[#cc2c21] hover:bg-[#ad0e03] text-white' : 'bg-white text-black'}`}
                         onClick={() => setActiveButton('Both')}
@@ -210,22 +211,104 @@ const LeftSide = () => {
                             </>
                         )}
 
-                        <label htmlFor="travellers" className="text-[#cc2c21]">Travellers</label>
-                        <select name="passengerCount" className="w-full outline-none border border-1 border-[#bebebe] rounded-md p-3">
-                            <option value="1" >1</option>
-                            <option value="2" >2</option>
-                            <option value="3" >3</option>
-                            <option value="4" >4</option>
-                            <option value="5" >5</option>
-                            <option value="6" >6</option>
-                            <option value="7" >7</option>
-                            <option value="8" >8</option>
+                    
+
+                        <div className="flex w-full">
+                        <div  className="pr-2 w-[25%] sm:w-[20%] md:w-[20%] lg:w-[20%]">
+<span className="text-[#cc2c21]" htmlFor="travellers"> Travellers</span>
+                                <select name="passengerCount" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
                             <option value="9">9</option>
-                            <option value="10" >10</option>
+                            <option value="10">10</option>
                         </select>
+                        </div>
+                        <div className="w-[75%] sm:w-[80%] md:w-[80%] lg:w-[80%]">
+                        <span className="text-[#cc2c21]">Purpose</span>
+
+                        <select id="fpurpose" name="fpurpose" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3">
+							<option value="0">Select</option>
+                            <option value="Visa Application">Visa Application</option>
+                            <option value="Office Work Place needs it">Office Work</option>
+							<option value="Passport Renewal">Passport Renewal</option>
+							<option value="Visa Renewal">Visa Renewal</option>
+							<option value="Car Rental">Car Rental</option>
+							<option value="Other">Other</option>
+                        </select>
+                    </div>
+</div>
+
                         <button onClick={handleValidation} className="bg-[#cc2c21] hover:bg-[#ad0e03] text-white p-3 mt-2 rounded-md text-center">Search Flights</button>
                     </div>
                 </div>
+
+
+
+            {/* ------------------Hotel-booking Start--------------------  */}
+            <div className="subparts hotelform mt-4 px-2">
+                    <div className="py-2 w-full">
+                    <span className="text-[#cc2c21] ">City</span>
+                                <select id="" name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3">
+                                <option value="0">Select City</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Mumbai">Mumbai</option>
+                            
+                           
+                        </select>
+                    </div>
+                    <div className="flex items-end flex-col sm:flex-row md:flex-row w-full gap-x-3">
+                        <div className=" py-2 w-full ">
+                               <span className="text-[#cc2c21] ">Checkin Date</span>
+                               <input type="date" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" placeholder="Select Date" />
+                        </div>
+                        <div className=" py-2 w-full ">
+                               <span className="text-[#cc2c21] ">Checkout Date</span>
+                               <input type="date" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" placeholder="Select Date" />
+                        </div>
+                    </div>
+                    <div className="flex w-full">
+                        <div  className="pr-2 w-[25%] sm:w-[20%] md:w-[20%] lg:w-[20%]">
+<span className="text-[#cc2c21]">Travellers</span>
+                                <select id="ftravelers" name="ftravelers" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                        </div>
+                        <div className="w-[75%] sm:w-[80%] md:w-[80%] lg:w-[80%]">
+                        <span className="text-[#cc2c21]">Purpose</span>
+
+                        <select id="fpurpose" name="fpurpose" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3">
+							<option value="0">Select</option>
+                            <option value="Visa Application">Visa Application</option>
+                            <option value="Office Work Place needs it">Office Work</option>
+							<option value="Passport Renewal">Passport Renewal</option>
+							<option value="Visa Renewal">Visa Renewal</option>
+							<option value="Car Rental">Car Rental</option>
+							<option value="Other">Other</option>
+                        </select>
+                    </div>
+</div>
+
+<div className="py-2 w-full">
+<button onClick={handleValidation} className="bg-[#cc2c21] hover:bg-[#ad0e03] text-white p-3 mt-2 rounded-md text-center w-full">Search Hotel</button>
+</div>            
+                </div>
+  {/* ------------------Hotel-booking End--------------------  */}
+
             </div>
             <ToastContainer/>
         </div>

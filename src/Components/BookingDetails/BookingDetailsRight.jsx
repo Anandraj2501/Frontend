@@ -252,13 +252,13 @@ const BookingDetailsRight = ({ totalPassenger, setTotalPassenger, onContactDetai
                             <div className="flex gap-6">
                                 <div className="left w-[50%] flex flex-col gap-6">
                                     <div className="flex">
-                                        <select className="dropdown border rounded-md p-3" value={passenger.title}
+                                        <select className="dropdown border rounded-md p-3 rounded-r-none" value={passenger.title}
                                             onChange={(e) => handleInputChange(index, e)} name="title">
                                             <option value="Mr">Mr</option>
                                             <option value="Ms">Ms</option>
                                             <option value="Mrs">Mrs</option>
                                         </select>
-                                        <input type="text" name="firstName" placeholder="First Name" className="w-full border rounded-md p-3" value={passenger.firstName} onChange={(e) => handleInputChange(index, e)} />
+                                        <input type="text" name="firstName" placeholder="First Name" className="w-full border rounded-md rounded-l-none p-3" value={passenger.firstName} onChange={(e) => handleInputChange(index, e)} />
                                     </div>
                                     {/* <input type="date" name="dob" placeholder="DOB" className="w-full border rounded-md p-3" value={passenger.dob} onChange={(e) => handleInputChange(index, e)} /> */}
                                 </div>

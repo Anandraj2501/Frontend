@@ -61,8 +61,9 @@ const ContactUs= () => {
 
 
                <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" placeholder='Name'/>
+               <textarea className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" id="message" name="msg" placeholder="Message*"></textarea>
                <div className='w-full text-center'>
-               <button className="bg-[#cc2c21]  hover:bg-[#ad0e03] text-white p-3 px-7 mt-2 rounded-md  text-center">Download</button></div>
+               <button className="bg-[#cc2c21]  hover:bg-[#ad0e03] text-white p-3 px-7 mt-2 rounded-md  text-center">Submit</button></div>
                </div>
                 </div>              
             </div>
