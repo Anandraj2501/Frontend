@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { BACKEND_URL } from "./url";
 
 const useSignup = ()=>{
     const [loading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ const useSignup = ()=>{
       console.log(userData);
       
       try {
-        const response = await axios.post('http://localhost:8080/api/signup', userData);
+        const response = await axios.post(`${BACKEND_URL}/user/signup`, userData);
         setSuccess(true);
         // You can also return response data or handle it as needed
       } catch (err) {

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { BACKEND_URL } from "./url";
 
 const useLogin = () => {
     const [loading, setLoading] = useState(false);
@@ -13,13 +14,13 @@ const useLogin = () => {
         console.log(userData);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/login', userData);
+            const response = await axios.post(`${BACKEND_URL}/user/login`, userData);
             // Assuming the response contains a token
             const { token, ...rest } = response.data;
             
             // Save token and any other necessary data in local storage
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(rest));
+            // localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(rest.user));
 
             setSuccess(true);
             // You can also return response data or handle it as needed

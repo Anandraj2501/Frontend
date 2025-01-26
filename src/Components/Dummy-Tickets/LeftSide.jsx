@@ -209,6 +209,20 @@ const LeftSide = () => {
                                 <input type="date" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" placeholder="Return Date" onChange={(e) => setReturnDate(e.target.value)} />
                             </>
                         )}
+
+                        <label htmlFor="travellers" className="text-[#cc2c21]">Travellers</label>
+                        <select name="passengerCount" className="w-full outline-none border border-1 border-[#bebebe] rounded-md p-3">
+                            <option value="1" >1</option>
+                            <option value="2" >2</option>
+                            <option value="3" >3</option>
+                            <option value="4" >4</option>
+                            <option value="5" >5</option>
+                            <option value="6" >6</option>
+                            <option value="7" >7</option>
+                            <option value="8" >8</option>
+                            <option value="9">9</option>
+                            <option value="10" >10</option>
+                        </select>
                         <button onClick={handleValidation} className="bg-[#cc2c21] hover:bg-[#ad0e03] text-white p-3 mt-2 rounded-md text-center">Search Flights</button>
                     </div>
                 </div>

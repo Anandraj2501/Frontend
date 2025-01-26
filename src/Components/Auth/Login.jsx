@@ -31,7 +31,7 @@ const Login = () => {
         if(success){
             toast.success("Signup Successfully");
             setSuccess(false);
-            navigate("/")
+            navigate("/admin")
         }
     }, [success]);
 
