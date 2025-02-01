@@ -140,7 +140,7 @@ const BookingDetails = () => {
     };
 
     const formattedAmount = parseFloat(total).toFixed(2);
-   
+
     const handlePaymentClick = async () => {
         // console.log(contactDetails,"contact");
         if (validateContactDetails()) {
@@ -159,7 +159,7 @@ const BookingDetails = () => {
 
 
     //This method will generate the hashvalue
-    
+
 
     const validateContactDetails = () => {
         if (!contactDetails.name || !contactDetails.phone || !contactDetails.email) {
@@ -193,218 +193,83 @@ const BookingDetails = () => {
 
     return (
         <>
-        <Navbar/>
-        <section className="sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] 2xl:w-[100%] px-3" style={{background: 'linear-gradient(to bottom,  rgba(255,249,249,0) 25%,rgba(250,242,242,0) 34%,rgba(211,189,187,1) 100%)'}} >
-            <div className=" flex w-full px-[2%] sm:px-[10%] md:px-[10%] lg:px-[10%] py-[10] flex-col font-bold ">
-                <h3 className=" text-center underline text-[#ec601d] text-4xl">Booking Details</h3>
-                <div className=" flex w-full gap-x-3 flex-wrap">
+            <Navbar />
+            <section className="sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] 2xl:w-[100%] px-3" style={{ background: 'linear-gradient(to bottom,  rgba(255,249,249,0) 25%,rgba(250,242,242,0) 34%,rgba(211,189,187,1) 100%)' }} >
+                <div className=" flex w-full px-[2%] sm:px-[10%] md:px-[10%] lg:px-[10%] py-[10] flex-col font-bold ">
+                    <h3 className=" text-center underline text-[#ec601d] text-4xl">Booking Details</h3>
+                    <div className=" flex w-full gap-x-3 flex-wrap">
 
-                    <BookingDetailsRight totalPassenger={totalPassenger} setTotalPassenger={setTotalPassenger} onContactDetailsChange={handleContactDetailsChange} passengers={passengers} setPassengers={setPassengers} addPassenger={addPassenger} />
-                    <div className="right-detail mt-10 w-[100%] sm:w-[37%] md:w-[30%] lg:w-[30%] xl:w-[30%] 2xl:w-[30%]   flex flex-col">
-                        <div className="borde-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Order Summary</div>
-                        <div className="detai pt-6">
-                            <div className="borde-2  border-[#ec601d] rounded-md text-center p-3 bg-slate-400 text-white">Flight</div>
-                            <div className="pt-3 px-2">
-                            <div className="flightdetails my-0 bg-white  p-2  shadow-md rounded-b-xl">
-                                <p>{from}</p>
-                                <span className="flex w-full justify-center"><HiMiniArrowRight /></span>
-                                <p>{to}</p>
-                                <span>{departureDate}</span>
-                                </div>
-                                {
-                            JourneyDetails && JourneyDetails.map((item) => (
-                                <div className="flightdetails mt-4   bg-white rounded-xl p-6  shadow-md">
-                                    <div className="airlines flex items-center">
-                                        <span><img src={getAirlineLogo(item?.airline)} className="w-16" alt="airline" /></span>
-                                        {/* <span><img src="/images/AIC.png" className="w-16" alt="airline" /></span> */}
-                                        <div className="flex flex-col ml-5 text-sm">
-                                            <span >{`Airline Name: ${getAirlineName(item?.airline)}`}</span>
-                                            <span>{item?.cityFrom} to {item?.cityTo}</span>
-                                        </div>
+                        <BookingDetailsRight totalPassenger={totalPassenger} setTotalPassenger={setTotalPassenger} onContactDetailsChange={handleContactDetailsChange} passengers={passengers} setPassengers={setPassengers} addPassenger={addPassenger} />
+                        <div className="right-detail mt-10 w-[100%] sm:w-[37%] md:w-[30%] lg:w-[30%] xl:w-[30%] 2xl:w-[30%]   flex flex-col">
+                            <div className="borde-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Order Summary</div>
+                            <div className="detai pt-6">
+                                <div className="borde-2  border-[#ec601d] rounded-md text-center p-3 bg-slate-400 text-white">Flight</div>
+                                <div className="pt-3 px-2">
+                                    <div className="flightdetails my-0 bg-white  p-2  shadow-md rounded-b-xl">
+                                        <p>{from}</p>
+                                        <span className="flex w-full justify-center"><HiMiniArrowRight /></span>
+                                        <p>{to}</p>
+                                        <span>{departureDate}</span>
                                     </div>
-                                    <hr />
-                                    <div className="trip-details flex gap-2 w-full my-2 justify-between">
-                                        <div className="flex flex-col">
-                                            <span className=" text-center">{`${formatDate(item?.local_departure)}`}</span>
-                                            <span className=" text-center text-4xl">{item?.cityCodeFrom}</span>
-                                            {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
+                                    {
+                                        JourneyDetails && JourneyDetails.map((item) => (
+                                            <div className="flightdetails mt-4   bg-white rounded-xl p-6  shadow-md">
+                                                <div className="airlines flex items-center">
+                                                    <span><img src={getAirlineLogo(item?.airline)} className="w-16" alt="airline" /></span>
+                                                    {/* <span><img src="/images/AIC.png" className="w-16" alt="airline" /></span> */}
+                                                    <div className="flex flex-col ml-5 text-sm">
+                                                        <span >{`Airline Name: ${getAirlineName(item?.airline)}`}</span>
+                                                        <span>{item?.cityFrom} to {item?.cityTo}</span>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div className="trip-details flex gap-2 w-full my-2 justify-between">
+                                                    <div className="flex flex-col">
+                                                        <span className=" text-center">{`${formatDate(item?.local_departure)}`}</span>
+                                                        <span className=" text-center text-4xl">{item?.cityCodeFrom}</span>
+                                                        {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
+                                                    </div>
+                                                    <div className="flex justify-center items-center flex-col">
+                                                        <span className="text-center text-sm">{departure}</span>
+                                                        <span className="text-sm">{`(Total Time)`}</span>
+                                                    </div>
+                                                    <div className="flex flex-col ">
+                                                        <span className=" text-center">{`${formatDate(item?.local_arrival)}`}</span>
+                                                        <span className=" text-center text-4xl">{item?.cityCodeTo}</span>
+                                                        {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                                    <div className="flex flex-col gap-2 mt-2">
+                                        <div className="flex justify-between">
+                                            <span>{tripType === "Round Trip" ? 'Routes * 2' : 'Routes'}</span>
+                                            <span0>{tripType === "Round Trip" ? '800' : '400'}</span0>
                                         </div>
-                                        <div className="flex justify-center items-center flex-col">
-                                            <span className="text-center text-sm">{departure}</span>
-                                            <span className="text-sm">{`(Total Time)`}</span>
+                                        <hr className="border-b border-dashed border-gray-400" />
+                                        <div className="flex justify-between ">
+                                            <span>Amount * {totalPassenger}</span>
+                                            <span>{amount * totalPassenger}</span>
                                         </div>
-                                        <div className="flex flex-col ">
-                                            <span className=" text-center">{`${formatDate(item?.local_arrival)}`}</span>
-                                            <span className=" text-center text-4xl">{item?.cityCodeTo}</span>
-                                            {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
+                                        <hr className="border-b border-dashed border-gray-400" />
+                                        <div className="flex justify-between">
+                                            <span>Total</span>
+                                            <span>{total}</span>
                                         </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                                <div className="flex flex-col gap-2 mt-2">
-                                    <div className="flex justify-between">
-                                        <span>{tripType === "Round Trip" ? 'Routes * 2' : 'Routes'}</span>
-                                        <span0>{tripType === "Round Trip" ? '800' : '400'}</span0>
-                                    </div>
-                                    <hr className="border-b border-dashed border-gray-400" />
-                                    <div className="flex justify-between ">
-                                        <span>Amount * {totalPassenger}</span>
-                                        <span>{amount * totalPassenger}</span>
-                                    </div>
-                                    <hr className="border-b border-dashed border-gray-400" />
-                                    <div className="flex justify-between">
-                                        <span>Total</span>
-                                        <span>{total}</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="px-2">
-                            <button className="w-full text-1xl bg-[#ec601d] text-white rounded-md p-3 mt-4 hover:text-white" onClick={handlePaymentClick}>Pay Now</button>
-                        </div>
+                            <div className="px-2">
+                                <button className="w-full text-1xl bg-[#ec601d] text-white rounded-md p-3 mt-4 hover:text-white" onClick={handlePaymentClick}>Pay Now</button>
+                            </div>
 
-                     
+
+                        </div>
                     </div>
+                    <ToastContainer />
                 </div>
-                <ToastContainer />
-            </div>
-
-
-{/*---------------------Hotel Booking Start-----------------------------------------------------------------------*/}
-<div className="flex w-full px-[2%] sm:px-[10%] md:px-[10%] lg:px-[10%] py-[10] flex-col">
-           <div className="flex flex-col sm:flex-row md:flex-row w-full gap-x-3 ">
-                            <div className="w-full mb-5">
-                            <h2  className="text-[#ec601d] text-2xl sm:text-4xl  md:text-4xl xl:text-4xl font-bold pb-3">Please Fill the Information below</h2>
-                            
-                                
-                                    <div className="w-full bg-white rounded-lg p-7">
-                                    <div  className="grid grid-rows  gap-3 w-full">
-                                            <div className="flex items-end flex-col sm:flex-row md:flex-row w-full gap-x-3">
-                                                    <div className=" py-2 w-full ">
-                                                            <span className="text-[#cc2c21] ">First Name </span>
-                                                            <input type="text" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" />
-                                                    </div>
-                                                    <div className=" py-2 w-full ">
-                                                            <span className="text-[#cc2c21] ">Last Name </span>
-                                                            <input type="text" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"  />
-                                                    </div>
-                                                </div>
-                                                <div className=" py-2 w-full ">
-                                                <span className="text-[#cc2c21] ">Country/Region </span>
-                                                <select id="ftravelers" name="ftravelers" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3">
-                                            <option value="India">India</option>
-                                        
-                                        </select>
-
-                                                </div>
-                                                <div className=" py-2 w-full ">
-                                                <span className="text-[#cc2c21] ">Street address* </span>
-                                                <input type="text" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" placeholder="House no. and street name"  />
-                                                </div>
-                                                <div className=" py-2 w-full ">
-                                                <span className="text-[#cc2c21] ">Cown / City</span>
-                                                <input type="text" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"   />
-                                                </div>
-                                                <div className=" py-2 w-full ">
-                                                <span className="text-[#cc2c21] ">State </span>
-                                                <select id="ftravelers" name="ftravelers" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3">
-                                            <option value="Delhi">Delhi</option>
-                                        
-                                        </select>
-
-                                                </div>
-                                                <div className=" py-2 w-full ">
-                                                <span className="text-[#cc2c21] ">PIN Code</span>
-                                                <input type="text" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"   />
-                                                </div>
-                                                <div className=" py-2 w-full ">
-                                                <span className="text-[#cc2c21] ">Phone</span>
-                                                <input type="text" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"   />
-                                                </div>
-                                                <div className=" py-2 w-full ">
-                                                <span className="text-[#cc2c21] ">Email address</span>
-                                                <input type="text" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3"   />
-                                                </div>
-
-                                        </div>
-
-                                    </div>
-
-                        
-
-                            </div>
-
-                        <div className="w-full mb-5">
-                        <h2  className="text-[#ec601d] text-2xl sm:text-4xl  md:text-4xl xl:text-4xl font-bold pb-3">Hotel Information</h2>
-                        <div className="w-full bg-white rounded-lg p-7">
-                            <div className="w-full border-black border grid grid-rows">
-                                        <div className="w-full bg-[#ccc] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-2xl font-bold w-full">Title</div>
-                                                <div className="text-[#000] text-2xl font-bold w-full">Price & Details</div>
-                                        </div>
-
-                                        <div className="w-full bg-[#fff] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full">Delhi, India <strong>x1</strong></div>
-                                                <div className="text-[#000] text-1xl font-normal w-full">&#8377;400.00</div>
-                                        </div>
-                                        <div className="w-full bg-[#f1f1f1] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full">Checkin </div>
-                                                <div className="text-[#000] text-1xl font-normal w-full"> 29,Jan 2025</div>
-                                        </div>
-                                        <div className="w-full bg-[#fff] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full">Checkout </div>
-                                                <div className="text-[#000] text-1xl font-normal w-full"> 30,Jan 2025</div>
-                                        </div>
-                                        <div className="w-full bg-[#f1f1f1] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full"><strong>Traneler 1</strong> </div>
-                                                <div className="text-[#000] text-1xl font-normal w-full"></div>
-                                        </div>
-                                        <div className="w-full bg-[#fff] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full">Title</div>
-                                                <div className="text-[#000] text-1xl font-normal w-full"> Mr</div>
-                                        </div>
-                                        <div className="w-full bg-[#f1f1f1] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full">First Name </div>
-                                                <div className="text-[#000] text-1xl font-normal w-full"> Vipul</div>
-                                        </div>
-
-                                        <div className="w-full bg-[#fff] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full">Purpose</div>
-                                                <div className="text-[#000] text-1xl font-normal w-full"> Office work place needs it</div>
-                                        </div>
-                                        <div className="w-full bg-[#f1f1f1] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full"><strong>Subtotal</strong> </div>
-                                                <div className="text-[#000] text-1xl font-normal w-full"><strong>&#8377;400.400</strong></div>
-                                        </div>
-                                        <div className="w-full bg-[#fff] p-3 flex flex-col sm:flex-row md:flex-row">
-                                                <div className="text-[#000] text-1xl font-normal w-full"><strong>Total</strong> </div>
-                                                <div className="text-[#000] text-1xl font-normal w-full"><strong>&#8377;400.400</strong></div>
-                                        </div>
-
-
-
-                                </div> 
-
-                                <div className="py-2 w-full">
-<button  className="text-1xl bg-[#ec601d] text-white rounded-md p-3 mt-4 hover:text-white p-3 mt-2 rounded-md text-center w-full">Pay Now</button>
-</div>
-
-
-                        </div>
-
-                        
-
-                        </div>
-
-           </div>
-    
-            </div>
-{/*---------------------Hotel Booking End-----------------------------------------------------------------------*/}
-
-
-
-            </section>  
+            </section>
             <Footer />
         </>
     )

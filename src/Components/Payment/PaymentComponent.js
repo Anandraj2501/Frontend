@@ -7,6 +7,7 @@ import { BACKEND_URL } from "../../utils/url";
 
 const PaymentComponent = () => {
     const navigate = useNavigate();
+    
     const generateTxnId = () => {
         const timestamp = Date.now().toString(); // Current timestamp
         const randomString = Math.random().toString(36).substr(2, 9); // Random alphanumeric string
