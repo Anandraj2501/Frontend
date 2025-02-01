@@ -18,6 +18,7 @@ import Privacy from './Components/Privacy';
 import PaymentSuccess from './Components/Payment/PaymentSuccess';
 import HotelBookingDetails from './Components/Hotels/HotelBookingDetails';
 import HotelPaymentPage from './Components/Hotels/HotelPaymentPage';
+import HotelPaymentSuccess from './Components/Payment/HotelPaymentSuccess';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/downloadTicket" element={<DownloadTicketPage />} />
         <Route path="/success/:id" element={<PaymentSuccess />} />
+        <Route path="/hotelpaymentsuccess/:id" element={<HotelPaymentSuccess />} />
         <Route path="/admin" element={<AdminMain />} />
         <Route path="/hotel-bookingDetails" element={<HotelBookingDetails />} />
         <Route path="/hotel-paymentPage" element={<HotelPaymentPage />} />

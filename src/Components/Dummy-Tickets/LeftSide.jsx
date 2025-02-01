@@ -16,6 +16,7 @@ const LeftSide = () => {
     const [toResults, setToResults] = useState([]);
     const [departueDate, setDepartureDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
+    const [travellers,setTravellers] = useState(1);
 
     const [hotelData, setHotelData] = useState({
         city: "",
@@ -104,7 +105,8 @@ const LeftSide = () => {
                     to,
                     departureDate: departueDate,
                     returnDate: tripType === 'Round Trip' ? returnDate : null,
-                    tripType: tripType === 'Round Trip' ? tripType : "one Way"
+                    tripType: tripType === 'Round Trip' ? tripType : "one Way",
+                    
                 }
             });
         }
@@ -266,7 +268,7 @@ const LeftSide = () => {
                             <div className="flex w-full">
                                 <div className="pr-2 w-[50%] ">
                                     <span className="text-[#cc2c21]" htmlFor="travellers"> Travellers</span>
-                                    <select name="passengerCount" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3">
+                                    <select name="passengerCount" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded-md p-3" onChange={(e)=> setTravellers(e.target.value)}>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>

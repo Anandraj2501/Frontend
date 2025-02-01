@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import { IoMdClose } from "react-icons/io";
@@ -7,7 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const HotelBookingDetails = () => {
     const location = useLocation();
-    const hotelData = location.state || {};
+    const [hotelData, setHotelData] = useState(location.state || {});
+
     const navigate = useNavigate();
 
     const [hotelTravellersDetails, setHotelTravellerDetails] = useState({
@@ -21,6 +22,24 @@ const HotelBookingDetails = () => {
         ]
 
     })
+
+    // Extract number of travellers
+    const numberOfTravellers = parseInt(hotelData?.travellers) || 1; // Default to 1
+
+    // Initialize passengers when the component mounts
+    useEffect(() => {
+        const initialPassengers = Array.from({ length: numberOfTravellers }, () => ({
+            title: "Mr",
+            firstName: "",
+            lastName: "",
+            dob: "",
+        }));
+
+        setHotelTravellerDetails((prevState) => ({
+            ...prevState,
+            passengers: initialPassengers,
+        }));
+    }, [numberOfTravellers]); // Runs when numberOfTravellers changes
 
     // Handle Contact Details Change
     const handleInputsChange = (e) => {
@@ -51,7 +70,7 @@ const HotelBookingDetails = () => {
             ...prevState,
             passengers: [
                 ...prevState.passengers,
-                { title: "Mr", firstName: "", lastName: "", dob: "", nationality: "Indian" }
+                { title: "Mr", firstName: "", lastName: "", dob: "" }
             ]
         }));
     };
@@ -67,6 +86,11 @@ const HotelBookingDetails = () => {
             ...prevState,
             passengers: updatedPassengers
         }));
+
+        setHotelData((prevHotelData) => ({
+            ...prevHotelData,
+            travellers: updatedPassengers.length, // Convert to string if needed
+        }));
     };
 
     const validateContactDetails = () => {
@@ -80,7 +104,7 @@ const HotelBookingDetails = () => {
         }
         for (let i = 0; i < hotelTravellersDetails.passengers.length; i++) {
             const passenger = hotelTravellersDetails.passengers[i];
-            if (!passenger.title || !passenger.firstName || !passenger.lastName || !passenger.nationality) {
+            if (!passenger.title || !passenger.firstName || !passenger.lastName) {
                 toast.error(`Please fill in all details for passenger ${i + 1}.`);
                 return false;
             }
@@ -93,7 +117,7 @@ const HotelBookingDetails = () => {
         const finalData = { ...hotelTravellersDetails, ...hotelData }
         console.log(finalData);
 
-        if(validateContactDetails()){
+        if (validateContactDetails()) {
             navigate("/hotel-paymentPage", { state: finalData });
         }
     }
@@ -331,7 +355,7 @@ const HotelBookingDetails = () => {
                                                 </div>
                                                 <div className="right w-[50%] flex flex-col gap-6">
                                                     <input type="text" name="lastName" placeholder="Last Name" className="border rounded-md p-3" value={passenger.lastName} onChange={(e) => handlePassengerChange(index, e)} />
-                                                    <select className="dropdown border rounded-md p-3" value={passenger.nationality} onChange={(e) => handlePassengerChange(index, e)} name="nationality">
+                                                    {/* <select className="dropdown border rounded-md p-3" value={passenger.nationality} onChange={(e) => handlePassengerChange(index, e)} name="nationality">
                                                         <option value="" disabled selected>Select Nationality</option>
                                                         <option value="Afghan">Afghan</option>
                                                         <option value="Albanian">Albanian</option>
@@ -514,7 +538,7 @@ const HotelBookingDetails = () => {
                                                         <option value="Yemeni">Yemeni</option>
                                                         <option value="Zambian">Zambian</option>
                                                         <option value="Zimbabwean">Zimbabwean</option>
-                                                    </select>
+                                                    </select> */}
 
                                                 </div>
                                             </div>

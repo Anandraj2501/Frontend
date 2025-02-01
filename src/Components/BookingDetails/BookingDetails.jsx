@@ -32,6 +32,7 @@ const BookingDetails = () => {
 
     const [passengers, setPassengers] = useState([]);
 
+
     const addPassenger = () => {
         setPassengers([
             ...passengers,
@@ -151,7 +152,8 @@ const BookingDetails = () => {
                     phone: contactDetails.phone,
                     email: contactDetails.email,
                     passengers: passengers,
-                    travellingDetails: location.state
+                    travellingDetails: location.state,
+                    
                 }
             });
         }
@@ -199,11 +201,11 @@ const BookingDetails = () => {
                     <h3 className=" text-center underline text-[#ec601d] text-4xl">Booking Details</h3>
                     <div className=" flex w-full gap-x-3 flex-wrap">
 
-                        <BookingDetailsRight totalPassenger={totalPassenger} setTotalPassenger={setTotalPassenger} onContactDetailsChange={handleContactDetailsChange} passengers={passengers} setPassengers={setPassengers} addPassenger={addPassenger} />
+                        <BookingDetailsRight totalPassenger={totalPassenger} setTotalPassenger={setTotalPassenger} onContactDetailsChange={handleContactDetailsChange} passengers={passengers} setPassengers={setPassengers} addPassenger={addPassenger}  />
                         <div className="right-detail mt-10 w-[100%] sm:w-[37%] md:w-[30%] lg:w-[30%] xl:w-[30%] 2xl:w-[30%]   flex flex-col">
                             <div className="borde-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Order Summary</div>
                             <div className="detai pt-6">
-                                <div className="borde-2  border-[#ec601d] rounded-md text-center p-3 bg-slate-400 text-white">Flight</div>
+                                <div className="borde-2  border-[#ec601d] rounded-md text-center p-3 bg-slate-400 text-white">Flight Details</div>
                                 <div className="pt-3 px-2">
                                     <div className="flightdetails my-0 bg-white  p-2  shadow-md rounded-b-xl">
                                         <p>{from}</p>
@@ -213,11 +215,13 @@ const BookingDetails = () => {
                                     </div>
                                     {
                                         JourneyDetails && JourneyDetails.map((item) => (
-                                            <div className="flightdetails mt-4   bg-white rounded-xl p-6  shadow-md">
+                                            <div className="flightdetails mt-2   bg-white rounded-xl p-2  shadow-md">
                                                 <div className="airlines flex items-center">
-                                                    <span><img src={getAirlineLogo(item?.airline)} className="w-16" alt="airline" /></span>
+                                                    <span><img src={getAirlineLogo(item?.airline)} className="w-12" alt="airline" /></span>
                                                     {/* <span><img src="/images/AIC.png" className="w-16" alt="airline" /></span> */}
-                                                    <div className="flex flex-col ml-5 text-sm">
+                                                    <div className="flex flex-col ml-3 text-sm">
+                                                        
+                                                        
                                                         <span >{`Airline Name: ${getAirlineName(item?.airline)}`}</span>
                                                         <span>{item?.cityFrom} to {item?.cityTo}</span>
                                                     </div>
@@ -226,7 +230,9 @@ const BookingDetails = () => {
                                                 <div className="trip-details flex gap-2 w-full my-2 justify-between">
                                                     <div className="flex flex-col">
                                                         <span className=" text-center">{`${formatDate(item?.local_departure)}`}</span>
-                                                        <span className=" text-center text-4xl">{item?.cityCodeFrom}</span>
+                                                    
+                                                       
+                                                        <span className=" text-center text-1xl">{item?.cityCodeFrom}</span>
                                                         {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
                                                     </div>
                                                     <div className="flex justify-center items-center flex-col">
@@ -235,7 +241,7 @@ const BookingDetails = () => {
                                                     </div>
                                                     <div className="flex flex-col ">
                                                         <span className=" text-center">{`${formatDate(item?.local_arrival)}`}</span>
-                                                        <span className=" text-center text-4xl">{item?.cityCodeTo}</span>
+                                                        <span className=" text-center text-1xl">{item?.cityCodeTo}</span>
                                                         {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
                                                     </div>
                                                 </div>
