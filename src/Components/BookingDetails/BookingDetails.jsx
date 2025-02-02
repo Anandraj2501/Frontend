@@ -96,8 +96,8 @@ const BookingDetails = () => {
                     'apikey': 'nst7nQCznwAahbh0dsvDFx9bh0qxC4lm'
                 }
             });
-            const flightData = airlines.data.data[0];
-            setJourneyDetails(airlines.data.data[0].route);
+            const flightData = airlines?.data?.data[0];
+            setJourneyDetails(airlines.data?.data[0]?.route);
             console.log(airlines, "oneway")
             if (flightData && flightData.duration) {
                 setDeparture(getTotalTime(flightData?.duration?.total));
@@ -109,7 +109,7 @@ const BookingDetails = () => {
                 }
             });
             const flightData = airlines.data.data[0];
-            setJourneyDetails(airlines.data.data[0].route);
+            setJourneyDetails(airlines.data?.data[0]?.route);
             if (flightData && flightData.duration) {
                 setDeparture(getTotalTime(flightData?.duration?.total));
             }
