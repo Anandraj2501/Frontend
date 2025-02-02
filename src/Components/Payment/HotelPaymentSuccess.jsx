@@ -33,7 +33,7 @@ const HotelPaymentSuccess = () => {
                     <div className="bg-white shadow-md rounded-lg p-6">
                         <div className="w-full">
                             <h1 className="text-2xl font-bold mb-4">Hello, {bookingdata?.contactDetails.name}!</h1>
-                            <p>Your Dummy Hotel Ticket Booking Payment is <span className=" text-green-500 font-bold">Confirmed</span>. You will recieve your Dummy Hotel Ticket on your email soon.</p>
+                            <p>Your Dummy Hotel Ticket for {bookingdata?.city} Booking Payment is <span className=" text-green-500 font-bold">Confirmed</span>. You will recieve your Dummy Hotel Ticket on your email soon.</p>
                         </div>
 
                         <h2 className="text-xl font-semibold mb-4">Payment Details</h2>
