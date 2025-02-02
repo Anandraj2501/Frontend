@@ -4,11 +4,12 @@ import Navbar from "../Navbar/Navbar";
 import { IoMdClose } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import { GoArrowRight } from "react-icons/go";
 
 const HotelBookingDetails = () => {
     const location = useLocation();
     const [hotelData, setHotelData] = useState(location.state || {});
-
+    console.log(hotelData);
     const navigate = useNavigate();
 
     const [hotelTravellersDetails, setHotelTravellerDetails] = useState({
@@ -555,6 +556,15 @@ const HotelBookingDetails = () => {
                         <div className="right-detail mt-10 w-[100%] sm:w-[37%] md:w-[30%] lg:w-[30%] xl:w-[30%] 2xl:w-[30%]   flex flex-col">
                             <div className="borde-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Order Summary</div>
                             <div className="detai pt-6">
+                            <div className="borde-2  border-[#ec601d] rounded-md text-center p-3 bg-slate-400 text-white">Hotel Details</div>
+                                <div>
+                                    <span className="w-full">{hotelData?.city}</span>
+                                    <div className="flex justify-between">
+                                        <span>{hotelData?.checkinDate}</span>
+                                        <span><GoArrowRight/></span>
+                                        <span>{hotelData?.checkoutDate}</span>
+                                    </div>
+                                </div>
                                 <div className="flex flex-col gap-2 mt-2">
                                     <hr className="border-b border-dashed border-gray-400" />
                                     <div className="flex justify-between ">

@@ -62,10 +62,10 @@ const HotelPaymentPage = () => {
                     <div className="bg-white shadow-md rounded-lg p-6">
                         <div className="w-full">
                             <h1 className="text-2xl font-bold mb-4">Hello, { initialData?.contactDetails?.name}!</h1>
-                            <p>Please Review your Ticket Details for dummyticket</p>
+                            <p>Please review the details of your Hotel Dummy Ticket on TripCafe Holidays.</p>
                         </div>
 
-                        <h2 className="text-xl font-semibold mb-4">Payment Details</h2>
+                        <h2 className="text-xl font-semibold mb-4">Dummy Tickets Payment Details</h2>
                         <div className="payment-details">
                             <div className="mb-2 uppercase flex"><label className="font-extrabold">Transaction ID: &nbsp;</label><span className="font-extrabold">{txnid}</span></div>
                             <ul className="w-full gap-1 grid grid-cols-2">
