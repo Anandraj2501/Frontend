@@ -27,7 +27,7 @@ const HotelPaymentSuccess = () => {
 
     return (
         <>
-        <Navbar/>
+            <Navbar />
             <section className="sm:w-[100%] md:w-[100%] lg:w-[100%] xl:w-[100%] 2xl:w-[100%] px-3 h-screen" style={{ background: 'linear-gradient(to bottom,  rgba(255,249,249,0) 25%,rgba(250,242,242,0) 34%,rgba(211,189,187,1) 100%)' }} >
                 <div className="container mx-auto sm:w-[60%] md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%] px-[2%] sm:px-[5.5%] md:px-[5.5%] lg:px-[5.5%] xl:px-[5.5%] py-10">
                     <div className="bg-white shadow-md rounded-lg p-6">
@@ -40,7 +40,9 @@ const HotelPaymentSuccess = () => {
                         <div className="payment-details">
                             <div className="mb-2 uppercase flex"><label className="font-extrabold">Transaction ID: &nbsp;</label><span className="font-extrabold">{bookingdata?.transactionId}</span></div>
                             <div className="mb-2 uppercase flex"><label className="font-extrabold">Reference ID: &nbsp;</label><span className="font-extrabold">{bookingdata?.referenceId}</span></div>
-                            <div className="mb-2 uppercase flex"><label className="font-extrabold">Booked on: &nbsp;</label><span className="font-extrabold">{new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(bookingdata?.createdAt))}</span></div>
+                            <div className="mb-2 uppercase flex"><label className="font-extrabold">Booked on: &nbsp;</label><span className="font-extrabold">{bookingdata?.createdAt
+                                ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(bookingdata.createdAt))
+                                : "N/A"}</span></div>
                             <ul className="w-full gap-1 grid grid-cols-2">
                                 <li className="bg-[#f3f3f3] p-2 flex"><label className="font-extrabold ">Amount: </label> &#8377;{400}</li>
                                 <li className="bg-[#f3f3f3] p-2 flex"><label className="font-extrabold ">Name: </label> {bookingdata?.contactDetails.name}</li>
@@ -51,7 +53,7 @@ const HotelPaymentSuccess = () => {
                     </div>
                 </div>
             </section>
-            <Footer/>
+            <Footer />
         </>
     )
 }
