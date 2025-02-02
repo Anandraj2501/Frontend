@@ -556,14 +556,23 @@ const HotelBookingDetails = () => {
                         <div className="right-detail mt-10 w-[100%] sm:w-[37%] md:w-[30%] lg:w-[30%] xl:w-[30%] 2xl:w-[30%]   flex flex-col">
                             <div className="borde-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Order Summary</div>
                             <div className="detai pt-6">
-                            <div className="borde-2  border-[#ec601d] rounded-md text-center p-3 bg-slate-400 text-white">Hotel Details</div>
+                                <div className="borde-2  border-[#ec601d] rounded-md text-center p-3 bg-slate-400 text-white">Hotel Details</div>
                                 <div>
                                     <span className="w-full">{hotelData?.city}</span>
                                     <div className="flex justify-between">
-                                        <span>{hotelData?.checkinDate}</span>
-                                        <span><GoArrowRight/></span>
-                                        <span>{hotelData?.checkoutDate}</span>
+                                        <span>
+                                            {hotelData?.checkinDate
+                                                ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(hotelData.checkinDate))
+                                                : "N/A"}
+                                        </span>
+                                        <span><GoArrowRight /></span>
+                                        <span>
+                                            {hotelData?.checkoutDate
+                                                ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(hotelData.checkoutDate))
+                                                : "N/A"}
+                                        </span>
                                     </div>
+
                                 </div>
                                 <div className="flex flex-col gap-2 mt-2">
                                     <hr className="border-b border-dashed border-gray-400" />

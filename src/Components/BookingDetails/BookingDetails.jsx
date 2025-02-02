@@ -153,7 +153,7 @@ const BookingDetails = () => {
                     email: contactDetails.email,
                     passengers: passengers,
                     travellingDetails: location.state,
-                    
+
                 }
             });
         }
@@ -201,7 +201,7 @@ const BookingDetails = () => {
                     <h3 className=" text-center underline text-[#ec601d] text-4xl">Booking Details</h3>
                     <div className=" flex w-full gap-x-3 flex-wrap">
 
-                        <BookingDetailsRight totalPassenger={totalPassenger} setTotalPassenger={setTotalPassenger} onContactDetailsChange={handleContactDetailsChange} passengers={passengers} setPassengers={setPassengers} addPassenger={addPassenger}  />
+                        <BookingDetailsRight totalPassenger={totalPassenger} setTotalPassenger={setTotalPassenger} onContactDetailsChange={handleContactDetailsChange} passengers={passengers} setPassengers={setPassengers} addPassenger={addPassenger} />
                         <div className="right-detail mt-10 w-[100%] sm:w-[37%] md:w-[30%] lg:w-[30%] xl:w-[30%] 2xl:w-[30%]   flex flex-col">
                             <div className="borde-2 border-[#ec601d] rounded-md text-center p-3 bg-[#ec601d] text-white">Order Summary</div>
                             <div className="detai pt-6">
@@ -211,7 +211,12 @@ const BookingDetails = () => {
                                         <p>{from}</p>
                                         <span className="flex w-full justify-center"><HiMiniArrowRight /></span>
                                         <p>{to}</p>
-                                        <span>{departureDate}</span>
+                                        <span>
+                                            {departureDate
+                                                ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(departureDate))
+                                                : "N/A"}
+                                        </span>
+
                                     </div>
                                     {
                                         JourneyDetails && JourneyDetails.map((item) => (
@@ -220,8 +225,8 @@ const BookingDetails = () => {
                                                     <span><img src={getAirlineLogo(item?.airline)} className="w-12" alt="airline" /></span>
                                                     {/* <span><img src="/images/AIC.png" className="w-16" alt="airline" /></span> */}
                                                     <div className="flex flex-col ml-3 text-sm">
-                                                        
-                                                        
+
+
                                                         <span >{`Airline Name: ${getAirlineName(item?.airline)}`}</span>
                                                         <span>{item?.cityFrom} to {item?.cityTo}</span>
                                                     </div>
@@ -230,8 +235,8 @@ const BookingDetails = () => {
                                                 <div className="trip-details flex gap-2 w-full my-2 justify-between">
                                                     <div className="flex flex-col">
                                                         <span className=" text-center">{`${formatDate(item?.local_departure)}`}</span>
-                                                    
-                                                       
+
+
                                                         <span className=" text-center text-1xl">{item?.cityCodeFrom}</span>
                                                         {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
                                                     </div>
