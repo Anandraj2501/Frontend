@@ -7,7 +7,7 @@ const BookingDetailsRight = ({ totalPassenger, setTotalPassenger, onContactDetai
     console.log(passengers);
     const handleClose = (indexs) => {
         console.log(indexs);
-        const newPassengers = passengers.filter((items, index) => index !== indexs);
+        const newPassengers = passengers?.filter((items, index) => index !== indexs);
         setPassengers(newPassengers);
         setTotalPassenger(totalPassenger - 1);
     }

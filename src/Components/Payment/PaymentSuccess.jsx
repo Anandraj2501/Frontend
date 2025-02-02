@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/url";
 import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 const PaymentSuccess = () => {
     const { id } = useParams();
@@ -30,12 +31,17 @@ const PaymentSuccess = () => {
                     <div className="bg-white shadow-md rounded-lg p-6">
                         <div className="w-full">
                             <h1 className="text-2xl font-bold mb-4">Hello, {bookingdata?.firstname}!</h1>
-                            <p>Your Dummy Flight Ticket for {bookingdata?.from}-{bookingdata?.to} is <span className=" text-green-500 font-bold">payment confirmed</span> with referenceId: <span className=" text-green-500 font-bold">{bookingdata?.referenceId}</span>. Your tickets are attached along with the email.</p>
+                            <p>Your Dummy Flight Ticket booked on for <span className=" font-bold">{bookingdata?.travellingDetails.from}</span> to <span className=" font-bold">{bookingdata?.travellingDetails.to}</span> is <span className=" text-green-500 font-bold">payment confirmed</span> . You will recieve your Dummy Hotel Ticket on your email soon.</p>
                         </div>
 
                         <h2 className="text-xl font-semibold mb-4">Payment Details</h2>
                         <div className="payment-details">
                             <div className="mb-2 uppercase flex"><label className="font-extrabold">Transaction ID: &nbsp;</label><span className="font-extrabold">{bookingdata?.transactionId}</span></div>
+                            <div className="mb-2 uppercase flex"><label className="font-extrabold">Reference ID: &nbsp;</label><span className=" text-green-500 font-bold">{bookingdata?.referenceId}</span></div>
+                            <div className="mb-2 uppercase flex"><label className="font-extrabold">Booked on: &nbsp;</label><span className=" font-bold">{new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(bookingdata?.createdAt))}</span></div>
+                            
+                            
+                            
                             <ul className="w-full gap-1 grid grid-cols-2">
                                 <li className="bg-[#f3f3f3] p-2 flex"><label className="font-extrabold ">Amount:</label> &#8377;{bookingdata?.amount}</li>
                                 <li className="bg-[#f3f3f3] p-2 flex"><label className="font-extrabold ">Name:</label> {bookingdata?.firstname}</li>
@@ -46,6 +52,7 @@ const PaymentSuccess = () => {
                     </div>
                 </div>
             </section>
+            <Footer/>
         </>
 
     )
