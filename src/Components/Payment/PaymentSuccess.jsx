@@ -31,7 +31,7 @@ const PaymentSuccess = () => {
                     <div className="bg-white shadow-md rounded-lg p-6">
                         <div className="w-full">
                             <h1 className="text-2xl font-bold mb-4">Hello, {bookingdata?.firstname}!</h1>
-                            <p>Your Dummy Flight Ticket booked on for <span className=" font-bold">{bookingdata?.travellingDetails.from}</span> to <span className=" font-bold">{bookingdata?.travellingDetails.to}</span> is <span className=" text-green-500 font-bold">payment confirmed</span> . You will recieve your Dummy Hotel Ticket on your email soon.</p>
+                            <p>Your Dummy Flight Ticket booked on for <span className=" font-bold">{bookingdata?.travellingDetails.from}</span> to <span className=" font-bold">{bookingdata?.travellingDetails.to}</span> is <span className=" text-green-500 font-bold">payment confirmed</span> . You will recieve your Dummy Flight Ticket on your email soon.</p>
                         </div>
 
                         <h2 className="text-xl font-semibold mb-4">Payment Details</h2>
