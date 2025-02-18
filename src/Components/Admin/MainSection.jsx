@@ -76,25 +76,112 @@ const MainSection = () => {
     }
     return (
         <div className="p-8 flex-grow">
-            <div className="flex justify-between">
+            <div className="flex mb-5 gap-x-3">
                 {/* Total Tickets Section */}
-                <div className="flex border bg-white p-8 items-center rounded-lg w-[20%] gap-2">
-                    <span>
-                        <img src="/images/tickets-svgrepo-com.svg" alt="" className="w-10" />
-                    </span>
+                <div className="border bg-white p-8 items-center rounded-lg w-[20%] grid gap-2 bg-cover" style={{ backgroundImage: 'url(images/icon/flight-bg.png)'}}>
+                   
                     <span className="font-semibold">Total Tickets Booked</span>
+                    <div className="font-semibold text-xl text-[#cc2c21]">120</div>
                 </div>
 
+                <div className="border bg-white p-8 items-center rounded-lg w-[20%] grid gap-2 bg-cover" style={{ backgroundImage: 'url(images/icon/hotel-bg.png)'}}>
+                   
+                   <span className="font-semibold">Total Hotel Booked</span>
+                   <div className="font-semibold text-xl text-[#cc2c21]">120</div>
+               </div>
+
+               
                 {/* Filter by Status */}
-                <div className="flex items-center">
-                    <label htmlFor="statusFilter" className="mr-2 font-semibold">
+
+
+            
+              
+            </div>
+            <div className="w-full p-10 bg-white  border rounded-lg grid gap-y-2">
+                <div className="w-full pb-1 flex gap-x-2">
+                     <div className="w-[50%]"> 
+                        <span className="text-[#333] font-semibold ">From Date</span>
+                        <input type="date" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2"/></div>
+                     <div className="w-[50%]"> 
+                        <span className="text-[#333] font-semibold">To Date</span>
+                        <input type="date" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2"/></div>
+                       
+                </div>
+                <div className="w-full pb-1 flex gap-x-2">
+                     <div className="w-[33.3%]"> 
+                        <span className="text-[#333] font-semibold ">Website</span>
+                        <select name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" >
+                                        <option value="0">Select Website</option>
+                                        <option value="1">1</option>
+                                        <option value="1">1</option>
+                        </select>
+                        </div>
+                        <div className="w-[33.3%]"> 
+                        <span className="text-[#333] font-semibold">Payment Status</span>
+                        <select name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" >
+                                        <option value="0">All</option>
+                                        <option value="1">1</option>
+                                        <option value="1">1</option>
+                        </select>
+                       
+                        </div>
+                     <div className="w-[33.3%]"> 
+                        <span className="text-[#333] font-semibold">Tast Booking</span>
+                        <select name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" >
+                                        <option value="0">False</option>
+                                        <option value="1">1</option>
+                                        <option value="1">1</option>
+                        </select></div>
+                       
+                </div>
+                <div className="w-full pb-1 flex gap-x-2">
+                     <div className="w-[33.3%]"> 
+                        <span className="text-[#333] font-semibold ">PNR</span>
+                        <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" placeholder="Enter PNR"/></div>
+                        <div className="w-[33.3%]"> 
+                        <span className="text-[#333] font-semibold">Ticket Status</span>
+                        <select name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" >
+                                        <option value="0">All</option>
+                                        <option value="1">1</option>
+                                        <option value="1">1</option>
+                        </select></div>
+                     <div className="w-[33.3%]"> 
+                        <span className="text-[#333] font-semibold">Contact</span>
+                        <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" placeholder="Enter Contact"/></div>
+                       
+                </div>
+                <div className="w-full pb-1 flex gap-x-2">
+                     <div className="w-[50%]"> 
+                        <span className="text-[#333] font-semibold ">Email</span>
+                        <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" placeholder="Enter E-mail"/></div>
+                        <div className="w-[50%]"> 
+                        <span className="text-[#333] font-semibold">ID</span>
+                        <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" placeholder="Enter ID"/></div>
+                     
+                       
+                </div>
+            </div>
+
+
+            <div className="w-full flex  justify-between  mt-10 mb-2">
+<div className="flex w-[30%] gap-x-2">
+<div className="w-[50%] "> 
+                        <span className="text-[#333] text-sm font-semibold ">From Date</span>
+                        <input type="date" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-1"/></div>
+                     <div className="w-[50%]"> 
+                        <span className="text-[#333] text-sm font-semibold">To Date</span>
+                        <input type="date" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-1"/></div>
+</div>
+
+            <div className="grid gap-y-1">
+                    <label htmlFor="statusFilter" className="text-sm font-semibold">
                         Filter by Status:
                     </label>
                     <select
                         id="statusFilter"
                         value={filterStatus}
                         onChange={handleFilterChange}
-                        className="border rounded px-4 py-2"
+                        className="border rounded p-1"
                     >
                         <option value="all">All</option>
                         <option value="pending">Pending</option>
@@ -103,8 +190,7 @@ const MainSection = () => {
                     </select>
                 </div>
             </div>
-
-            <div className="flex flex-col bg-white border rounded-lg mt-10 p-8">
+            <div className="flex flex-col bg-white border rounded-lg p-8">
                 <span className="font-semibold text-2xl mb-4">Recent Bookings</span>
                 <table className="w-full border-collapse">
                     <thead>
