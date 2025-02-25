@@ -1,41 +1,27 @@
-import { MdDashboard } from "react-icons/md";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import TicketEditModal from "./TicketEditModal";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
-import { BACKEND_URL } from "../../utils/url";
 
-const MainSection = () => {
-    const [tickets, setTickets] = useState([]); // State to store ticket data
-    const [loading, setLoading] = useState(true); // State to manage loading
-    const [page, setPage] = useState(1);
-    const [selectedTicket, setSelectedTicket] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [editTicket, setEditTicket] = useState();
-    const [filterStatus, setFilterStatus] = useState("all"); // State for filter
-    const navigate = useNavigate();
 
-    const handleOpen = (ticket) => {
-        setEditTicket(ticket);
-        setOpen(true);
-        setSelectedTicket(null);
-    };
+import React, { useEffect, useState } from 'react';
+import { Plane, Hotel, Calendar, Mail, Search, Download } from 'lucide-react';
+import { BACKEND_URL } from '../../utils/url';
+import axios from 'axios';
 
-    const handleEllipsisClick = (ticketId) => {
-        setSelectedTicket(ticketId === selectedTicket ? null : ticketId);
-    };
+const statusColors = {
+    paid: "bg-green-100 text-green-800",
+    pending: "bg-yellow-100 text-yellow-800",
+    failed: "bg-red-100 text-red-800",
+};
 
-    const handleUpdateTicket = (updatedTicket) => {
-        setTickets((prevTickets) =>
-            prevTickets.map((ticket) =>
-                ticket._id === updatedTicket._id ? updatedTicket : ticket
-            )
-        );
-    };
+export default function MainSection() {
 
-    // Fetch ticket data on component mount
+    const [tickets, setTickets] = useState([]);
+    const [filteredTickets, setFilteredTickets] = useState([]);
+
+
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
+    const [pnr, setPnr] = useState("");
+    const [status, setStatus] = useState();
+
     useEffect(() => {
         const fetchTickets = async () => {
             try {
@@ -44,236 +30,178 @@ const MainSection = () => {
                         "Content-Type": "application/json",
                     },
                 });
-                setTickets(response.data); // Set the fetched ticket data
-                setLoading(false); // Stop loading
+                setTickets(response.data);
+                console.log(response.data);
+                setFilteredTickets(response.data);
             } catch (error) {
                 if (error.response && error.response.status === 401) {
                     // If status is 401, navigate to the login page
-                    navigate("/");
+                    // navigate("/");
                 }
-                setLoading(false);
+                // setLoading(false);
             }
         };
 
         fetchTickets();
     }, []);
 
-    // Handle status filter change
-    const handleFilterChange = (e) => {
-        setFilterStatus(e.target.value);
-        setPage(1); // Reset to the first page when applying a filter
-    };
+    useEffect(() => {
+        let filteredData = tickets;
 
-    // Filtered tickets based on the selected status
-    const filteredTickets =
-        filterStatus === "all"
-            ? tickets
-            : tickets.filter((ticket) => ticket.status === filterStatus);
+        if (fromDate) {
+            filteredData = filteredData.filter(ticket => new Date(ticket.createdAt) >= new Date(fromDate));
+        }
+        if (toDate) {
+            filteredData = filteredData.filter(ticket => new Date(ticket.createdAt) <= new Date(toDate));
+        }
+        if (pnr) {
+            filteredData = filteredData.filter(ticket => ticket.pnr === pnr);
+        }
+        if(status){
+            filteredData = filteredData.filter(ticket => ticket.status === status.toLowerCase());
+        }
 
-    // Render loading state or table
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+        setFilteredTickets(filteredData);
+
+    }, [fromDate, toDate, pnr, status]);
+
     return (
-        <div className="p-8 flex-grow">
-            <div className="flex mb-5 gap-x-3">
-                {/* Total Tickets Section */}
-                <div className="border bg-white p-8 items-center rounded-lg w-[20%] grid gap-2 bg-cover" style={{ backgroundImage: 'url(images/icon/flight-bg.png)'}}>
-                   
-                    <span className="font-semibold">Total Tickets Booked</span>
-                    <div className="font-semibold text-xl text-[#cc2c21]">120</div>
-                </div>
-
-                <div className="border bg-white p-8 items-center rounded-lg w-[20%] grid gap-2 bg-cover" style={{ backgroundImage: 'url(images/icon/hotel-bg.png)'}}>
-                   
-                   <span className="font-semibold">Total Hotel Booked</span>
-                   <div className="font-semibold text-xl text-[#cc2c21]">120</div>
-               </div>
-
+        <div className="p-6 max-w-[1400px] mx-auto">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-2xl font-bold text-gray-900">Booking Dashboard</h1>
                
-                {/* Filter by Status */}
-
-
-            
-              
             </div>
-            <div className="w-full p-10 bg-white  border rounded-lg grid gap-y-2">
-                <div className="w-full pb-1 flex gap-x-2">
-                     <div className="w-[50%]"> 
-                        <span className="text-[#333] font-semibold ">From Date</span>
-                        <input type="date" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2"/></div>
-                     <div className="w-[50%]"> 
-                        <span className="text-[#333] font-semibold">To Date</span>
-                        <input type="date" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2"/></div>
-                       
-                </div>
-                <div className="w-full pb-1 flex gap-x-2">
-                     <div className="w-[33.3%]"> 
-                        <span className="text-[#333] font-semibold ">Website</span>
-                        <select name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" >
-                                        <option value="0">Select Website</option>
-                                        <option value="1">1</option>
-                                        <option value="1">1</option>
-                        </select>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="bg-blue-50 p-3 rounded-lg">
+                            <Plane className="w-6 h-6 text-blue-600" />
                         </div>
-                        <div className="w-[33.3%]"> 
-                        <span className="text-[#333] font-semibold">Payment Status</span>
-                        <select name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" >
-                                        <option value="0">All</option>
-                                        <option value="1">1</option>
-                                        <option value="1">1</option>
-                        </select>
-                       
+                        <span className="text-sm font-medium text-gray-400">Last 30 days</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">120</h3>
+                    <p className="text-sm text-gray-600">Total Tickets Booked</p>
+                </div>
+
+                <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="bg-purple-50 p-3 rounded-lg">
+                            <Hotel className="w-6 h-6 text-purple-600" />
                         </div>
-                     <div className="w-[33.3%]"> 
-                        <span className="text-[#333] font-semibold">Tast Booking</span>
-                        <select name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" >
-                                        <option value="0">False</option>
-                                        <option value="1">1</option>
-                                        <option value="1">1</option>
-                        </select></div>
-                       
+                        <span className="text-sm font-medium text-gray-400">Last 30 days</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">120</h3>
+                    <p className="text-sm text-gray-600">Total Hotels Booked</p>
                 </div>
-                <div className="w-full pb-1 flex gap-x-2">
-                     <div className="w-[33.3%]"> 
-                        <span className="text-[#333] font-semibold ">PNR</span>
-                        <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" placeholder="Enter PNR"/></div>
-                        <div className="w-[33.3%]"> 
-                        <span className="text-[#333] font-semibold">Ticket Status</span>
-                        <select name="" className="w-full outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" >
-                                        <option value="0">All</option>
-                                        <option value="1">1</option>
-                                        <option value="1">1</option>
-                        </select></div>
-                     <div className="w-[33.3%]"> 
-                        <span className="text-[#333] font-semibold">Contact</span>
-                        <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" placeholder="Enter Contact"/></div>
-                       
+
+                <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="bg-green-50 p-3 rounded-lg">
+                            <Calendar className="w-6 h-6 text-green-600" />
+                        </div>
+                        <span className="text-sm font-medium text-gray-400">Today</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">24</h3>
+                    <p className="text-sm text-gray-600">New Bookings</p>
                 </div>
-                <div className="w-full pb-1 flex gap-x-2">
-                     <div className="w-[50%]"> 
-                        <span className="text-[#333] font-semibold ">Email</span>
-                        <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" placeholder="Enter E-mail"/></div>
-                        <div className="w-[50%]"> 
-                        <span className="text-[#333] font-semibold">ID</span>
-                        <input type="text" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-2" placeholder="Enter ID"/></div>
-                     
-                       
+
+
+            </div>
+
+            {/* Search Filters */}
+            <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                        <input
+                            type="date"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={fromDate}
+                            onChange={(e) => setFromDate(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                        <input
+                            type="date"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={toDate}
+                            onChange={(e) => setToDate(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">PNR</label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Enter PNR"
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                value={pnr}
+                                onChange={(e) => setPnr(e.target.value)}
+                            />
+                            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                        </div>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Ticket Status</label>
+                        <select
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                        >
+                            <option value="">All</option>
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                            <option value="failed">Failed</option>
+                        </select>
+
+                    </div>
                 </div>
             </div>
 
-
-            <div className="w-full flex  justify-between  mt-10 mb-2">
-<div className="flex w-[30%] gap-x-2">
-<div className="w-[50%] "> 
-                        <span className="text-[#333] text-sm font-semibold ">From Date</span>
-                        <input type="date" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-1"/></div>
-                     <div className="w-[50%]"> 
-                        <span className="text-[#333] text-sm font-semibold">To Date</span>
-                        <input type="date" className="w-full text-[.8rem] outline-none border border-1 border-[#bebebe] focus:border-[#cc2c21] rounded p-1"/></div>
-</div>
-
-            <div className="grid gap-y-1">
-                    <label htmlFor="statusFilter" className="text-sm font-semibold">
-                        Filter by Status:
-                    </label>
-                    <select
-                        id="statusFilter"
-                        value={filterStatus}
-                        onChange={handleFilterChange}
-                        className="border rounded p-1"
-                    >
-                        <option value="all">All</option>
-                        <option value="pending">Pending</option>
-                        <option value="paid">Paid</option>
-                        <option value="failed">Failed</option>
-                    </select>
+            {/* Recent Bookings Table */}
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-gray-100">
+                    <h2 className="text-lg font-semibold text-gray-900">Recent Bookings</h2>
                 </div>
-            </div>
-            <div className="flex flex-col bg-white border rounded-lg p-8">
-                <span className="font-semibold text-2xl mb-4">Recent Bookings</span>
-                <table className="w-full border-collapse">
-                    <thead>
-                        <tr className="border-b border-gray-200">
-                            <th className="px-4 py-2 text-left">Txn ID</th>
-                            <th className="px-4 py-2 text-left">Booking ID</th>
-                            <th className="px-4 py-2 text-left">PNR</th>
-                            <th className="px-4 py-2 text-left">Amount</th>
-                            <th className="px-4 py-2 text-left">Email</th>
-                            <th className="px-4 py-2 text-left">Status</th>
-                            <th className="px-4 py-2 text-left">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredTickets.slice((page - 1) * 10, page * 10).map((ticket, index) => (
-                            <tr key={ticket._id} className={(index + 1) % 2 === 0 ? "even:bg-gray-100" : ""}>
-                                <td className="px-4 py-2">{ticket.transactionId}</td>
-                                <td className="px-4 py-2">{ticket.bookingId}</td>
-                                <td className="px-4 py-2">{ticket.pnr}</td>
-                                <td className="px-4 py-2">{ticket.amount}</td>
-                                <td className="px-4 py-2">{ticket.email}</td>
-                                <td
-                                    className={`px-4 py-2 ${
-                                        ticket?.status === "pending"
-                                            ? "text-yellow-500"
-                                            : ticket?.status === "paid"
-                                            ? "text-green-600"
-                                            : ticket?.status === "failed"
-                                            ? "text-red-500"
-                                            : ""
-                                    }`}
-                                >
-                                    {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
-                                </td>
-                                <td className="px-4 py-2 text-right">
-                                    <button
-                                        className="text-gray-500 hover:text-black"
-                                        onClick={() => handleEllipsisClick(ticket._id)}
-                                    >
-                                        &#x22EF;
-                                    </button>
-                                    {selectedTicket === ticket._id && (
-                                        <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg z-10">
-                                            {/* Edit Ticket Option */}
-                                            <button
-                                                className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
-                                                onClick={() => handleOpen(ticket)}
-                                            >
-                                                Edit Ticket
-                                            </button>
-
-                                            {/* Preview Ticket Option */}
-                                            <a
-                                                href={`http://localhost:3000/downloadTicket?txnId=${editTicket?.transactionId}`}
-                                                className="block w-full px-4 py-2 text-left text-blue-500 hover:bg-gray-100"
-                                            >
-                                                Preview Ticket
-                                            </a>
-                                        </div>
-                                    )}
-                                </td>
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead>
+                            <tr className="bg-gray-50">
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Txn ID</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking ID</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PNR</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                            {filteredTickets?.map((ticket, index) => (
+                                <tr key={index} className="hover:bg-gray-50">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.transactionId}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.bookingId}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.pnr}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.amount}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.email}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[ticket.status]}`}>
+                                            {ticket.status}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <button className="text-blue-600 hover:text-blue-800">View Details</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div className="flex justify-end mt-4">
-                <ButtonGroup variant="contained">
-                    <Button disabled={page === 1} onClick={() => setPage((page) => Math.max(1, page - 1))}>
-                        &lt;
-                    </Button>
-                    <Button
-                        disabled={page * 10 >= filteredTickets.length}
-                        onClick={() => setPage((page) => page + 1)}
-                    >
-                        &gt;
-                    </Button>
-                </ButtonGroup>
-            </div>
-
-            <TicketEditModal open={open} handleOpen={handleOpen} setOpen={setOpen} editTicket={editTicket} onUpdate={handleUpdateTicket} />
         </div>
     );
-};
-
-export default MainSection;
+}
