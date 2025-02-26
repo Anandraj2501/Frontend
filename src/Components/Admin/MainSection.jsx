@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { Plane, Hotel, Calendar, Mail, Search, Download } from 'lucide-react';
+import { Plane, Hotel, Calendar, Mail, Search, Download, X, Edit2, Save, User, Phone } from 'lucide-react';
 import { BACKEND_URL } from '../../utils/url';
 import axios from 'axios';
 
@@ -15,6 +15,15 @@ export default function MainSection() {
 
     const [tickets, setTickets] = useState([]);
     const [filteredTickets, setFilteredTickets] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedBooking, setSelectedBooking] = useState(null);
+    const [editingPassenger, setEditingPassenger] = useState(null);
+    const [passengerForm, setPassengerForm] = useState({
+        title: '',
+        firstName: '',
+        lastName: '',
+        nationality: ''
+    });
 
 
     const [fromDate, setFromDate] = useState("");
@@ -57,7 +66,7 @@ export default function MainSection() {
         if (pnr) {
             filteredData = filteredData.filter(ticket => ticket.pnr === pnr);
         }
-        if(status){
+        if (status) {
             filteredData = filteredData.filter(ticket => ticket.status === status.toLowerCase());
         }
 
@@ -65,12 +74,81 @@ export default function MainSection() {
 
     }, [fromDate, toDate, pnr, status]);
 
+    const handleViewDetails = (booking) => {
+        setSelectedBooking(booking);
+        setShowModal(true);
+    };
+
+    const startEditingPassenger = (passenger) => {
+        setEditingPassenger(passenger._id);
+        setPassengerForm({
+            title: passenger.title,
+            firstName: passenger.firstName,
+            lastName: passenger.lastName,
+            nationality: passenger.nationality
+        });
+    };
+
+    const savePassengerEdit = async (bookingId,passengerId) => {
+        console.log(bookingId,passengerId)
+        // In a real app, you would make an API call here
+        try {
+            const response = await axios.put(`${BACKEND_URL}/booking/updateBookingData/${bookingId}/passenger/${passengerId}`, { passengerDetails: passengerForm, pnr: pnr }, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            } // Sending passengers data in the request body
+            );
+            setSelectedBooking((prevBooking) => ({
+                ...prevBooking,
+                passengers: prevBooking.passengers.map((passenger) =>
+                    passenger._id === passengerId ? { ...passenger, ...passengerForm } : passenger
+                ),
+            }));
+    
+            // Update the main tickets list
+            setTickets((prevTickets) =>
+                prevTickets.map((ticket) =>
+                    ticket._id === bookingId
+                        ? {
+                            ...ticket,
+                            passengers: ticket.passengers.map((passenger) =>
+                                passenger._id === passengerId ? { ...passenger, ...passengerForm } : passenger
+                            ),
+                        }
+                        : ticket
+                )
+            );
+    
+            setFilteredTickets((prevFilteredTickets) =>
+                prevFilteredTickets.map((ticket) =>
+                    ticket._id === bookingId
+                        ? {
+                            ...ticket,
+                            passengers: ticket.passengers.map((passenger) =>
+                                passenger._id === passengerId ? { ...passenger, ...passengerForm } : passenger
+                            ),
+                        }
+                        : ticket
+                )
+            );
+
+        } catch (error) {
+
+        }
+        setEditingPassenger(null);
+    };
+
+    const cancelEditing = () => {
+        setEditingPassenger(null);
+    };
+
     return (
         <div className="p-6 max-w-[1400px] mx-auto">
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-2xl font-bold text-gray-900">Booking Dashboard</h1>
-               
+
             </div>
 
             {/* Stats Grid */}
@@ -171,7 +249,9 @@ export default function MainSection() {
                     <table className="w-full">
                         <thead>
                             <tr className="bg-gray-50">
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Date&Time</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Txn ID</th>
+                                {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ReferenceId</th> */}
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking ID</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PNR</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
@@ -183,7 +263,12 @@ export default function MainSection() {
                         <tbody className="divide-y divide-gray-100">
                             {filteredTickets?.map((ticket, index) => (
                                 <tr key={index} className="hover:bg-gray-50">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        {new Date(ticket.createdAt).toLocaleString("en-US")}
+                                    </td>
+
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.transactionId}</td>
+                                    {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.referenceId}</td> */}
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.bookingId}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.pnr}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ticket.amount}</td>
@@ -194,7 +279,7 @@ export default function MainSection() {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <button className="text-blue-600 hover:text-blue-800">View Details</button>
+                                        <button className="text-blue-600 hover:text-blue-800" onClick={() => handleViewDetails(ticket)}>View Details</button>
                                     </td>
                                 </tr>
                             ))}
@@ -202,6 +287,154 @@ export default function MainSection() {
                     </table>
                 </div>
             </div>
+            {/* Booking Details Modal */}
+            {showModal && selectedBooking && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+                        <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+                            <h3 className="text-xl font-semibold text-gray-900">Booking Details</h3>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="text-gray-400 hover:text-gray-500"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="p-6 overflow-y-auto flex-1">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+                                <div>
+                                    <h4 className="text-sm font-medium text-gray-500 mb-1">Booking ID</h4>
+                                    <p className="text-gray-900">{selectedBooking._id}</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-medium text-gray-500 mb-1">Reference ID</h4>
+                                    <p className="text-gray-900">{selectedBooking.referenceId}</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-medium text-gray-500 mb-1">PNR</h4>
+                                    <p className="text-gray-900">{selectedBooking.pnr || 'Not assigned'}</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-medium text-gray-500 mb-1">Amount</h4>
+                                    <p className="text-gray-900">₹{selectedBooking.amount}</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                    ${statusColors[selectedBooking.status]}`}>
+                                        {selectedBooking.status}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="mb-6">
+                                <h4 className="text-lg font-medium text-gray-900 mb-3">Passenger Details</h4>
+                                <div className="bg-gray-50 rounded-lg border border-gray-200">
+                                    <div className="grid grid-cols-5 gap-4 p-4 border-b border-gray-200 bg-gray-100">
+                                        <div className="text-sm font-medium text-gray-500">Title</div>
+                                        <div className="text-sm font-medium text-gray-500">Firstname</div>
+                                        <div className="text-sm font-medium text-gray-500">lastname</div>
+                                        <div className="text-sm font-medium text-gray-500">Nationality</div>
+                                        <div className="text-sm font-medium text-gray-500">Actions</div>
+                                    </div>
+
+                                    {selectedBooking.passengers.map((passenger) => (
+                                        <div key={passenger.id} className="grid grid-cols-5 gap-4 p-4 border-b border-gray-200 last:border-0">
+                                            {editingPassenger === passenger._id ? (
+                                                // Editing mode
+                                                <>
+                                                    <div>
+                                                        <input
+                                                            type="text"
+                                                            value={passengerForm.title}
+                                                            onChange={(e) => setPassengerForm({ ...passengerForm, title: e.target.value })}
+                                                            className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <input
+                                                            type="text"
+                                                            value={passengerForm.firstName}
+                                                            onChange={(e) => setPassengerForm({ ...passengerForm, firstName: e.target.value })}
+                                                            className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <input
+                                                            type="text"
+                                                            value={passengerForm.lastName}
+                                                            onChange={(e) => setPassengerForm({ ...passengerForm, lastName: e.target.value })}
+                                                            className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <input
+                                                            type="text"
+                                                            value={passengerForm.nationality}
+                                                            onChange={(e) => setPassengerForm({ ...passengerForm, nationality: e.target.value })}
+                                                            className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                                                        />
+                                                    </div>
+                                                    <div className="flex space-x-2">
+                                                        <button
+                                                            onClick={() => savePassengerEdit(selectedBooking._id,passenger._id)}
+                                                            className="p-1 text-green-600 hover:text-green-800"
+                                                            title="Save"
+                                                        >
+                                                            <Save size={18} />
+                                                        </button>
+                                                        <button
+                                                            onClick={cancelEditing}
+                                                            className="p-1 text-gray-600 hover:text-gray-800"
+                                                            title="Cancel"
+                                                        >
+                                                            <X size={18} />
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                // View mode
+                                                <>
+                                                    <div className="text-sm text-gray-900 flex items-center">
+                                                        <User className="w-4 h-4 mr-2 text-gray-400" />
+                                                        {passenger.title}
+                                                    </div>
+                                                    <div className="text-sm text-gray-900">{passenger.firstName}</div>
+                                                    <div className="text-sm text-gray-900">{passenger.lastName}</div>
+                                                    <div className="text-sm text-gray-900 flex items-center">
+                                                        {/* <Phone className="w-4 h-4 mr-2 text-gray-400" /> */}
+                                                        {passenger.nationality}
+                                                    </div>
+                                                    <div>
+                                                        <button
+                                                            onClick={() => startEditingPassenger(passenger)}
+                                                            className="p-1 text-blue-600 hover:text-blue-800"
+                                                            title="Edit passenger"
+                                                        >
+                                                            <Edit2 size={18} />
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="p-6 border-t border-gray-200 bg-gray-50 flex justify-end">
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
