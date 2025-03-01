@@ -85,65 +85,68 @@ const TicketDocument = ({ ticketData }) => (
                 <View style={styles.headRight}>
 
                     <Text style={styles.headtextg}>Booking Confirmed</Text>
-                    <Text style={styles.headtextp}><Text style={styles.label}>Ticketing Date:</Text> 04/11/2024 | <Text style={styles.label}>Ticketing Time:</Text> 11:18:35 IST</Text>
-                    <Text style={styles.headtextp}><Text style={styles.label}>PNR:</Text> XXXXXX </Text>
+                    <Text style={styles.headtextp}><Text style={styles.label}>Booking Date&Time: </Text>{new Date(ticketData?.createdAt).toLocaleString("en-US")}</Text>
+                    <Text style={styles.headtextp}><Text style={styles.label}>PNR:</Text> {ticketData?.pnr || "N/A"} </Text>
 
                 </View>
             </View>
 
             <View style={styles.section}>
-                <Text style={styles.booknoLabel}>BOOKING ID:</Text>
+                <Text style={styles.booknoLabel}>Reference ID:</Text>
                 <Text style={styles.bookno}>{ticketData?.
-                    referenceNumber}</Text>
+                    referenceId || "N/A"}</Text>
             </View>
             <View style={styles.section}>
                 <Text style={styles.booknocontentA} >Hi Anand,</Text>
-                <Text style={styles.booknocontentb} >Your flight ticket for New Delhi-Dubai is confirmed. Your tickets are attached along with the email. Your Booking
-                    reference no. is 1205</Text>
+                <Text style={styles.booknocontentb} >Your flight ticket for {ticketData?.travellingDetails.from} - {ticketData?.travellingDetails.to}</Text>
 
             </View>
-            <View style={styles.section}>
+            {/* <View style={styles.section}>
                 <Text style={styles.flightLabel}>{ticketData?.travellingDetails.from} To {ticketData?.travellingDetails.to}</Text>
-            </View>
+            </View> */}
             <View style={styles.flightDetail}>
-                <View style={styles.flightlog}>
+                {/* <View style={styles.flightlog}>
                     <Image src='images/AIC.png' alt='' />
                     <Text style={styles.flightnadetName}>Air India</Text>
                     <Text style={styles.flightnadet}>AI-409</Text>
                     <Text style={styles.flightnadet}>ECONOMY</Text>
-                </View>
+                </View> */}
 
                 <View style={styles.flightTimeDate}>
                     <Text style={styles.flightnadetName}>{ticketData?.travellingDetails.from}</Text>
-                    <Text style={styles.flightNo}>DEL 10:35</Text>
+                    {/* <Text style={styles.flightNo}>DEL 10:35</Text>
                     <Text style={styles.flightDate}>FRI, 18 JUN ‘21</Text>
-                    <Text style={styles.flightloc}>Indira Gandhi Intl Airport Terminal 3</Text>
+                    <Text style={styles.flightloc}>Indira Gandhi Intl Airport Terminal 3</Text> */}
                 </View>
                 <View style={styles.flighthour}>
                     <Text style={styles.flighticon}><Image src='images/airplane.png' alt='' /></Text>
-                    <Text style={styles.flighttime}>1h 35m</Text>
+                    {/* <Text style={styles.flighttime}>1h 35m</Text> */}
                 </View>
 
                 <View style={styles.flightTimeDateb}>
                     <Text style={styles.flightnadetName}>{ticketData?.travellingDetails.to}</Text>
-                    <Text style={styles.flightNob}>PAT 12:10</Text>
+                    {/* <Text style={styles.flightNob}>PAT 12:10</Text>
                     <Text style={styles.flightDateb}>FRI, 18 JUN ‘21</Text>
                     <Text style={styles.flightlocb}>Lok Nayak Jaya Prakash
-                        Narayan Airport </Text>
+                        Narayan Airport </Text> */}
                 </View>
             </View>
             <View style={styles.pdetailtable}>
                 <View style={styles.pdetailtableHead}>
                     <Text style={styles.pdetailtableHeadName}>PASSENGER NAME</Text>
                     <Text style={styles.pdetailtableHeadPNR}>PNR</Text>
-                    <Text style={styles.pdetailtableHeadTNo}>E-TICKET NO</Text>
+                    {/* <Text style={styles.pdetailtableHeadTNo}>E-TICKET NO</Text> */}
                 </View>
-                <View style={styles.pdetailtablebody}>
-                    <Text style={styles.pdetailtablebodySno}>1.</Text>
-                    <Text style={styles.pdetailtablebodyName}>{ticketData?.passengers[0].title} {ticketData?.passengers[0].firstName}</Text>
-                    <Text style={styles.pdetailtablebodyPNR}>YQB5J </Text>
-                    <Text style={styles.pdetailtablebodyTNo}>0984722231949</Text>
-                </View>
+                {ticketData?.passengers.map((ticketData,index) => (
+                    <View style={styles.pdetailtablebody}>
+
+                        <Text style={styles.pdetailtablebodySno}>{index+1}</Text>
+                        <Text style={styles.pdetailtablebodyName}>{ticketData?.title} {ticketData?.firstName} {ticketData?.lastName}</Text>
+                        <Text style={styles.pdetailtablebodyPNR}>{ticketData?.pnr || "N/A"}</Text>
+                        {/* <Text style={styles.pdetailtablebodyTNo}>0984722231949</Text> */}
+                    </View>
+                ))}
+
             </View>
             {
                 ticketData?.travellingDetails.tripType !== "one Way" &&
@@ -271,7 +274,7 @@ const DownloadTicketPage = () => {
         const fetchTicketData = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get(`http://localhost:8080/api/getTicketData?txnid=${txnId}`, {
+                const response = await axios.get(`http://localhost:8000/api/v1/booking/getbookingdatabyid/${txnId}`, {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
@@ -279,7 +282,7 @@ const DownloadTicketPage = () => {
                 });
                 setTicketData(response.data);
                 setLoading(false);
-                console.log(ticketData);
+                console.log(response);
             } catch (error) {
                 console.error('Error fetching ticket data:', error);
                 setLoading(false);
@@ -310,7 +313,7 @@ const DownloadTicketPage = () => {
         {({ loading }) => (loading ? 'Generating PDF...' : 'Download Ticket PDF')}
       </PDFDownloadLink> */}
             <PDFViewer style={{ width: '100%', height: '100vh' }}>
-                <TicketDocument ticketData={ticketData} />
+                {ticketData && <TicketDocument ticketData={ticketData} />}
                 {/* <TicketDocument /> */}
             </PDFViewer>
 

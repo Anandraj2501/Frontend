@@ -23,7 +23,7 @@ const AdminMain = ()=>{
 
     return(
         <div className="bg-[#FAFAFB] flex">
-            <Dashboard/>
+            {/* <Dashboard/> */}
             <MainSection />
         </div>
     )
