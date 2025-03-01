@@ -186,8 +186,8 @@ export default function MainSection() {
         <div className="p-6 max-w-[1400px] mx-auto">
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
-                <div className='bg-black'>
-                    <img alt="Your Company" src="images/trip-cafe-logo-admin.png" className="h-8 m-[0 auto] w-auto"
+                <div>
+                    <img alt="Your Company" src="images/trip-cafe-logo-admin.png" className=" filter invert h-8 m-[0 auto] w-auto"
                     />
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900">Booking Dashboard</h1>
