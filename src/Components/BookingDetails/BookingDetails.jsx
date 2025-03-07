@@ -153,7 +153,7 @@ const BookingDetails = () => {
                     email: contactDetails.email,
                     passengers: passengers,
                     travellingDetails: location.state,
-
+                    flightDetails: JourneyDetails
                 }
             });
         }
@@ -192,6 +192,14 @@ const BookingDetails = () => {
         const calculatedTotal = tripType === "Round Trip" ? (amount * totalPassenger) * 2 : amount * totalPassenger;
         setTotal(calculatedTotal);
     }, [tripType, totalPassenger, amount]);
+
+    const formatTime = (local_departure, local_arrival) => {
+        console.log(local_departure, local_arrival);
+        const diffMs = new Date(local_arrival) - new Date(local_departure);
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        return `${hours}h ${minutes}m`;
+    }
 
     return (
         <>
@@ -234,18 +242,19 @@ const BookingDetails = () => {
                                                 <hr />
                                                 <div className="trip-details flex gap-2 w-full my-2 justify-between">
                                                     <div className="flex flex-col">
-                                                        <span className=" text-center">{`${formatDate(item?.local_departure)}`}</span>
-
+                                                        <span className=" text-center">{`${item?.local_departure.split("T")[0]}`}</span>
+                                                        <span className=" text-center">{`${item?.local_departure.split("T")[1].split(".")[0]}`}</span>
 
                                                         <span className=" text-center text-1xl">{item?.cityCodeFrom}</span>
                                                         {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
                                                     </div>
                                                     <div className="flex justify-center items-center flex-col">
-                                                        <span className="text-center text-sm">{departure}</span>
+                                                        <span className="text-center text-sm">{`${formatTime(item?.local_departure, item?.local_arrival)}`}</span>
                                                         <span className="text-sm">{`(Total Time)`}</span>
                                                     </div>
                                                     <div className="flex flex-col ">
-                                                        <span className=" text-center">{`${formatDate(item?.local_arrival)}`}</span>
+                                                        <span className=" text-center">{`${item?.local_arrival.split("T")[0]}`}</span>
+                                                        <span className=" text-center">{`${item?.local_arrival.split("T")[1].split(".")[0]}`}</span>
                                                         <span className=" text-center text-1xl">{item?.cityCodeTo}</span>
                                                         {/* <span className=" text-center">(INDIRA GANDHI)</span> */}
                                                     </div>

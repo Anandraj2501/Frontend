@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import airlinesData from "../BookingDetails/airlines.json";
 //import tripCafelogo from 'http://localhost:3000/images/trip-cafe.jpg';
 
 import axios from 'axios';
@@ -73,7 +74,27 @@ const styles = StyleSheet.create({
         marginVertical: 15,        // space around the line
     },
 });
+const getAirlineLogo = (iataCode) => {
+    // console.log(iataCode);
+    const airline = airlinesData.data.find(airline => airline.iata_code === iataCode);
+    // console.log(airline);
+    return airline.logo;
 
+}
+const getAirlineName = (iataCode) => {
+    // console.log(iataCode);
+    const airline = airlinesData.data.find(airline => airline.iata_code === iataCode);
+    // console.log(airline);
+    return airline.name;
+
+}
+const formatTime = (local_departure, local_arrival) => {
+    console.log(local_departure, local_arrival);
+    const diffMs = new Date(local_arrival) - new Date(local_departure);
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
+}
 const TicketDocument = ({ ticketData }) => (
 
     <Document>
@@ -101,46 +122,51 @@ const TicketDocument = ({ ticketData }) => (
                 <Text style={styles.booknocontentb} >Your flight ticket for {ticketData?.travellingDetails.from} - {ticketData?.travellingDetails.to}</Text>
 
             </View>
-            {/* <View style={styles.section}>
+            <View style={styles.section}>
                 <Text style={styles.flightLabel}>{ticketData?.travellingDetails.from} To {ticketData?.travellingDetails.to}</Text>
-            </View> */}
-            <View style={styles.flightDetail}>
-                {/* <View style={styles.flightlog}>
-                    <Image src='images/AIC.png' alt='' />
-                    <Text style={styles.flightnadetName}>Air India</Text>
-                    <Text style={styles.flightnadet}>AI-409</Text>
-                    <Text style={styles.flightnadet}>ECONOMY</Text>
-                </View> */}
-
-                <View style={styles.flightTimeDate}>
-                    <Text style={styles.flightnadetName}>{ticketData?.travellingDetails.from}</Text>
-                    {/* <Text style={styles.flightNo}>DEL 10:35</Text>
-                    <Text style={styles.flightDate}>FRI, 18 JUN ‘21</Text>
-                    <Text style={styles.flightloc}>Indira Gandhi Intl Airport Terminal 3</Text> */}
-                </View>
-                <View style={styles.flighthour}>
-                    <Text style={styles.flighticon}><Image src='images/airplane.png' alt='' /></Text>
-                    {/* <Text style={styles.flighttime}>1h 35m</Text> */}
-                </View>
-
-                <View style={styles.flightTimeDateb}>
-                    <Text style={styles.flightnadetName}>{ticketData?.travellingDetails.to}</Text>
-                    {/* <Text style={styles.flightNob}>PAT 12:10</Text>
-                    <Text style={styles.flightDateb}>FRI, 18 JUN ‘21</Text>
-                    <Text style={styles.flightlocb}>Lok Nayak Jaya Prakash
-                        Narayan Airport </Text> */}
-                </View>
             </View>
+            {
+                ticketData?.flightDetails && ticketData?.flightDetails.map((flightDetail) => (
+                    <View style={styles.flightDetail}>
+                        <View style={styles.flightlog}>
+                            <Image src={getAirlineLogo(flightDetail?.airline)} alt='' />
+                            <Text style={styles.flightnadetName}>{`${getAirlineName(flightDetail?.airline)}`}</Text>
+                            {/* <Text style={styles.flightnadet}>AI-409</Text>
+                            <Text style={styles.flightnadet}>ECONOMY</Text> */}
+                        </View>
+
+                        <View style={styles.flightTimeDate}>
+                            {/* <Text style={styles.flightnadetName}>{ticketData?.travellingDetails.from}</Text> */}
+                            <Text style={styles.flightNo}>{flightDetail?.cityFrom} {`${flightDetail?.local_departure.split("T")[1].split(".")[0]}`}</Text>
+                            <Text style={styles.flightDate}>{`${flightDetail?.local_departure.split("T")[0]}`}</Text>
+                            <Text style={styles.flightloc}>{flightDetail?.cityCodeFrom}</Text>
+                        </View>
+                        <View style={styles.flighthour}>
+                            <Text style={styles.flighticon}><Image src={getAirlineLogo(flightDetail?.airline)} alt='' /></Text>
+                            <Text style={styles.flighttime}>{`${formatTime(flightDetail?.local_departure, flightDetail?.local_arrival)}`}</Text>
+                        </View>
+
+                        <View style={styles.flightTimeDateb}>
+                            {/* <Text style={styles.flightnadetName}>{ticketData?.travellingDetails.to}</Text> */}
+                            <Text style={styles.flightNob}>{flightDetail?.cityTo} {`${flightDetail?.local_arrival.split("T")[1].split(".")[0]}`}</Text>
+                            <Text style={styles.flightDateb}>{`${flightDetail?.local_arrival.split("T")[0]}`}</Text>
+                            <Text style={styles.flightlocb}>{flightDetail?.cityCodeTo}</Text>
+                        </View>
+                    </View>
+                ))
+
+            }
+
             <View style={styles.pdetailtable}>
                 <View style={styles.pdetailtableHead}>
                     <Text style={styles.pdetailtableHeadName}>PASSENGER NAME</Text>
                     <Text style={styles.pdetailtableHeadPNR}>PNR</Text>
                     {/* <Text style={styles.pdetailtableHeadTNo}>E-TICKET NO</Text> */}
                 </View>
-                {ticketData?.passengers.map((ticketData,index) => (
+                {ticketData?.passengers.map((ticketData, index) => (
                     <View style={styles.pdetailtablebody}>
 
-                        <Text style={styles.pdetailtablebodySno}>{index+1}</Text>
+                        <Text style={styles.pdetailtablebodySno}>{index + 1}</Text>
                         <Text style={styles.pdetailtablebodyName}>{ticketData?.title} {ticketData?.firstName} {ticketData?.lastName}</Text>
                         <Text style={styles.pdetailtablebodyPNR}>{ticketData?.pnr || "N/A"}</Text>
                         {/* <Text style={styles.pdetailtablebodyTNo}>0984722231949</Text> */}
@@ -148,7 +174,7 @@ const TicketDocument = ({ ticketData }) => (
                 ))}
 
             </View>
-            {
+            {/* {
                 ticketData?.travellingDetails.tripType !== "one Way" &&
                 (
                     <>
@@ -200,7 +226,7 @@ const TicketDocument = ({ ticketData }) => (
                         </View>
                     </>
                 )
-            }
+            } */}
 
         </Page>
 

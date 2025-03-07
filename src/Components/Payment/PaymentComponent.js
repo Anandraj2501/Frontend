@@ -15,7 +15,7 @@ const PaymentComponent = () => {
     };
 
     const location = useLocation();
-    const { amount, name, phone, email, passengers, travellingDetails } = location.state || {};
+    const { amount, name, phone, email, passengers, travellingDetails, flightDetails } = location.state || {};
     const [hash, setHash] = useState(null);
     const [txnid, setTxnid] = useState(generateTxnId());
 
@@ -28,6 +28,7 @@ const PaymentComponent = () => {
         firstname: name,
         udf1: JSON.stringify(passengers),
         udf2: JSON.stringify(travellingDetails),
+        udf3: JSON.stringify(flightDetails),
         email
     };
 
