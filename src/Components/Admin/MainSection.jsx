@@ -1,7 +1,8 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { Plane, Hotel, Calendar, Mail, Search, Download, X, Edit2, Save, User, Phone } from 'lucide-react';
+import { Plane, Hotel, Calendar, Mail, Search, Download, X, Edit2, Save, User, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { BACKEND_URL } from '../../utils/url';
 import axios from 'axios';
 
@@ -30,20 +31,52 @@ export default function MainSection() {
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
     const [pnr, setPnr] = useState("");
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState("");
     const [stats, setStats] = useState();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState();
+
+    useEffect(() => {
+        const searchData = async () => {
+            try {
+                const response = await axios.get(`${BACKEND_URL}/booking/searchBooking?fromDate=${fromDate}&toDate=${toDate}&pnr=${pnr}&status=${status}`);
+
+                setTickets(response.data.orders);
+                setFilteredTickets(response.data.orders);
+                console.log(response,"search")
+                setTotalPages(response.data.totalPages);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        const searchHotelData = async()=>{
+            try{
+                const response = await axios.get(`${BACKEND_URL}/booking/searchHotelData?fromDate=${fromDate}&toDate=${toDate}&status=${status}`);
+
+                setTickets(response.data.orders);
+                setFilteredTickets(response.data.orders);
+                setTotalPages(response.data.totalPages);
+            }catch(error){
+                console.log(error);
+            }
+        }
+        console.log(fromDate, toDate, pnr, status)
+        bookingType === "Flight" ? searchData() : searchHotelData();
+    }, [fromDate, toDate, pnr, status]);
 
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await axios.get(`${BACKEND_URL}/booking`, {
+                const response = await axios.get(`${BACKEND_URL}/booking?page=${page}`, {
                     headers: {
                         "Content-Type": "application/json",
                     },
                 });
-                setTickets(response.data);
+                setTickets(response.data.orders);
                 console.log(response.data);
-                setFilteredTickets(response.data);
+                setFilteredTickets(response.data.orders);
+                setTotalPages(response.data.totalPages);
             } catch (error) {
                 if (error.response && error.response.status === 401) {
                     // If status is 401, navigate to the login page
@@ -55,14 +88,15 @@ export default function MainSection() {
 
         const fetchHotelBooking = async () => {
             try {
-                const response = await axios.get(`${BACKEND_URL}/booking/hotel`, {
+                const response = await axios.get(`${BACKEND_URL}/booking/hotel?page=${page}`, {
                     headers: {
                         "Content-Type": "application/json",
                     },
                 });
-                setTickets(response.data);
+                setTickets(response.data.orders);
                 console.log(response.data);
-                setFilteredTickets(response.data);
+                setFilteredTickets(response.data.orders);
+                setTotalPages(response.data.totalPages);
             } catch (error) {
                 if (error.response && error.response.status === 401) {
                     // If status is 401, navigate to the login page
@@ -91,27 +125,9 @@ export default function MainSection() {
 
         bookingType === "Flight" ? fetchTickets() : fetchHotelBooking();
         getStats();
-    }, [bookingType]);
+    }, [bookingType, page]);
 
-    useEffect(() => {
-        let filteredData = tickets;
 
-        if (fromDate) {
-            filteredData = filteredData.filter(ticket => new Date(ticket.createdAt) >= new Date(fromDate));
-        }
-        if (toDate) {
-            filteredData = filteredData.filter(ticket => new Date(ticket.createdAt) <= new Date(toDate));
-        }
-        if (pnr) {
-            filteredData = filteredData.filter(ticket => ticket.pnr === pnr);
-        }
-        if (status) {
-            filteredData = filteredData.filter(ticket => ticket.status === status.toLowerCase());
-        }
-
-        setFilteredTickets(filteredData);
-
-    }, [fromDate, toDate, pnr, status]);
 
     const handleViewDetails = (booking) => {
         setSelectedBooking(booking);
@@ -294,7 +310,10 @@ export default function MainSection() {
                             name="bookingtype"
                             id="bookingtype"
                             value={bookingType} // Sets the default value
-                            onChange={(e) => setBookingType(e.target.value)} // Updates state on change
+                            onChange={(e) =>{
+                                setPage(1);
+                                setBookingType(e.target.value)
+                            } } // Updates state on change
                             className="border border-gray-300 rounded-md p-2"
                         >
                             <option value="Flight">Flight</option>
@@ -390,6 +409,23 @@ export default function MainSection() {
                         </div>
                     </>
                 }
+                <div className="flex justify-between items-center p-4">
+                    <button
+                        onClick={() => page > 1 && setPage(prevPage => prevPage - 1)}
+                        disabled={page === 1} // Disable button on first page
+                        className={page === 1 ? "text-gray-500 opacity-50 cursor-not-allowed" : "hover:text-blue-500"}
+                    >
+                        <ChevronLeft /> Previous
+                    </button>
+
+                    <button
+                        onClick={() => page < totalPages && setPage(prevPage => prevPage + 1)}
+                        disabled={page === totalPages}
+                        className={`text-gray-500 ${page === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:text-blue-500'}`}
+                    >
+                        Next <ChevronRight />
+                    </button>
+                </div>
             </div>
 
             {/* Booking Details Modal for flight*/}
