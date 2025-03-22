@@ -26,6 +26,7 @@ const PaymentComponent = () => {
         amount,
         productinfo: "dummyTicket",
         firstname: name,
+        phone,
         udf1: JSON.stringify(passengers),
         udf2: JSON.stringify(travellingDetails),
         udf3: JSON.stringify(flightDetails),

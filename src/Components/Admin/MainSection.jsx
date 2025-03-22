@@ -18,6 +18,7 @@ export default function MainSection() {
     const [bookingType, setBookingType] = useState("Flight");
     const [filteredTickets, setFilteredTickets] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [editBooking, setEditBooking] = useState(false);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [editingPassenger, setEditingPassenger] = useState(null);
     const [passengerForm, setPassengerForm] = useState({
@@ -25,6 +26,12 @@ export default function MainSection() {
         firstName: '',
         lastName: '',
         nationality: ''
+    });
+
+    const [editBookingDetails, setEditingBookingDetails] = useState({
+        pnr: "",
+        flightNumber: "",
+        flightClass: ""
     });
 
 
@@ -43,21 +50,21 @@ export default function MainSection() {
 
                 setTickets(response.data.orders);
                 setFilteredTickets(response.data.orders);
-                console.log(response,"search")
+                console.log(response, "search")
                 setTotalPages(response.data.totalPages);
             } catch (error) {
                 console.log(error);
             }
         }
 
-        const searchHotelData = async()=>{
-            try{
+        const searchHotelData = async () => {
+            try {
                 const response = await axios.get(`${BACKEND_URL}/booking/searchHotelData?fromDate=${fromDate}&toDate=${toDate}&status=${status}`);
 
                 setTickets(response.data.orders);
                 setFilteredTickets(response.data.orders);
                 setTotalPages(response.data.totalPages);
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         }
@@ -194,6 +201,45 @@ export default function MainSection() {
         setEditingPassenger(null);
     };
 
+    const startEditingBooking = () => {
+        setEditBooking(!editBooking);
+        setEditingBookingDetails({
+            pnr: selectedBooking.pnr,
+            flightNumber: selectedBooking.flightNumber,
+            flightClass: selectedBooking.flightClass
+        })
+    }
+
+    const saveEditBookingDetails = async () => {
+
+        try {
+            const response = await axios.put(`${BACKEND_URL}/booking/updateBookingDetailsData/${selectedBooking._id}`
+                , { editBookingDetails }, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            console.log(response);
+            if(response?.status === 200){
+                setEditBooking(!editBooking);
+                setSelectedBooking(response?.data.updatedBooking);
+
+                setFilteredTickets((prevFilteredTickets) =>
+                    prevFilteredTickets.map((ticket) =>
+                        ticket._id === selectedBooking._id
+                            ? {
+                                ...ticket,
+                                ...response?.data.updatedBooking
+                            }
+                            : ticket
+                    )
+                );
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const cancelEditing = () => {
         setEditingPassenger(null);
     };
@@ -310,10 +356,10 @@ export default function MainSection() {
                             name="bookingtype"
                             id="bookingtype"
                             value={bookingType} // Sets the default value
-                            onChange={(e) =>{
+                            onChange={(e) => {
                                 setPage(1);
                                 setBookingType(e.target.value)
-                            } } // Updates state on change
+                            }} // Updates state on change
                             className="border border-gray-300 rounded-md p-2"
                         >
                             <option value="Flight">Flight</option>
@@ -448,27 +494,63 @@ export default function MainSection() {
 
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-500 mb-1">Transaction ID</h4>
-                                        <p className="text-gray-900">{selectedBooking.transactionId}</p>
+                                        <p className="text-gray-900">{selectedBooking?.transactionId}</p>
                                     </div>
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-500 mb-1">Reference ID</h4>
-                                        <p className="text-gray-900">{selectedBooking.referenceId}</p>
+                                        <p className="text-gray-900">{selectedBooking?.referenceId}</p>
                                     </div>
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-500 mb-1">PNR</h4>
-                                        <p className="text-gray-900">{selectedBooking.pnr || 'Not assigned'}</p>
+                                        {
+                                            !editBooking ?
+                                                <p className="text-gray-900">{selectedBooking?.pnr || 'Not assigned'}</p> :
+                                                <input
+                                                    type="text"
+                                                    value={editBookingDetails?.pnr}
+                                                    onChange={(e) => setPassengerForm({ ...editBookingDetails, pnr: e.target.value })}
+                                                    className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                                                />
+
+                                        }
+
                                     </div>
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-500 mb-1">Amount</h4>
-                                        <p className="text-gray-900">₹{selectedBooking.amount}</p>
+                                        <p className="text-gray-900">₹{selectedBooking?.amount}</p>
                                     </div>
+
                                     <div>
-                                        <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                    ${statusColors[selectedBooking.status]}`}>
-                                            {selectedBooking.status}
-                                        </span>
+                                        <h4 className="text-sm font-medium text-gray-500 mb-1">Flight Number</h4>
+
+                                        {
+                                            !editBooking ?
+                                                <p className="text-gray-900">{selectedBooking?.flightNumber || "NA"}</p> :
+                                                <input
+                                                    type="text"
+                                                    value={editBookingDetails?.flightNumber}
+                                                    onChange={(e) => setEditingBookingDetails({ ...editBookingDetails, flightNumber: e.target.value })}
+                                                    className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                                                />
+
+                                        }
                                     </div>
+
+                                    <div>
+                                        <h4 className="text-sm font-medium text-gray-500 mb-1">Class</h4>
+                                        {
+                                            !editBooking ?
+                                                <p className="text-gray-900">{selectedBooking?.flightClass || "NA"}</p> :
+                                                <input
+                                                    type="text"
+                                                    value={editBookingDetails?.flightClass}
+                                                    onChange={(e) => setEditingBookingDetails({ ...editBookingDetails, flightClass: e.target.value })}
+                                                    className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                                                />
+
+                                        }
+                                    </div>
+
                                 </div>
 
                                 <div className="mb-6">
@@ -482,7 +564,7 @@ export default function MainSection() {
                                             <div className="text-sm font-medium text-gray-500">Actions</div>
                                         </div>
 
-                                        {selectedBooking.passengers.map((passenger) => (
+                                        {selectedBooking?.passengers?.map((passenger) => (
                                             <div key={passenger.id} className="grid grid-cols-5 gap-4 p-4 border-b border-gray-200 last:border-0">
                                                 {editingPassenger === passenger._id ? (
                                                     // Editing mode
@@ -521,7 +603,7 @@ export default function MainSection() {
                                                         </div>
                                                         <div className="flex space-x-2">
                                                             <button
-                                                                onClick={() => savePassengerEdit(selectedBooking._id, passenger._id)}
+                                                                onClick={() => savePassengerEdit(selectedBooking?._id, passenger._id)}
                                                                 className="p-1 text-green-600 hover:text-green-800"
                                                                 title="Save"
                                                             >
@@ -568,6 +650,23 @@ export default function MainSection() {
 
                             <div className="p-6 border-t border-gray-200 bg-gray-50 flex justify-end">
                                 <div className='flex gap-3'>
+                                    {
+                                        !editBooking ?
+                                            <button
+                                                onClick={() => startEditingBooking()}
+                                                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                            >
+                                                Edit Booking Detials
+                                            </button> :
+                                            <button
+                                                onClick={() => saveEditBookingDetails()}
+                                                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                            >
+                                                Save Booking Detials
+                                            </button>
+
+                                    }
+
                                     <button
                                         onClick={() => setShowModal(false)}
                                         className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
@@ -608,21 +707,21 @@ export default function MainSection() {
 
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-500 mb-1">Transaction ID</h4>
-                                        <p className="text-gray-900">{selectedBooking.transactionId}</p>
+                                        <p className="text-gray-900">{selectedBooking?.transactionId}</p>
                                     </div>
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-500 mb-1">Reference ID</h4>
-                                        <p className="text-gray-900">{selectedBooking.referenceId}</p>
+                                        <p className="text-gray-900">{selectedBooking?.referenceId}</p>
                                     </div>
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-500 mb-1">Amount</h4>
-                                        <p className="text-gray-900">₹{selectedBooking.amount}</p>
+                                        <p className="text-gray-900">₹{selectedBooking?.amount}</p>
                                     </div>
                                     <div>
                                         <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                    ${statusColors[selectedBooking.status.toLowerCase()]}`}>
-                                            {selectedBooking.status}
+                    ${statusColors[selectedBooking?.status.toLowerCase()]}`}>
+                                            {selectedBooking?.status}
                                         </span>
                                     </div>
                                 </div>
@@ -637,7 +736,7 @@ export default function MainSection() {
                                             <div className="text-sm font-medium text-gray-500">Actions</div>
                                         </div>
 
-                                        {selectedBooking.passengers.map((passenger) => (
+                                        {selectedBooking?.passengers.map((passenger) => (
                                             <div key={passenger.id} className="grid grid-cols-5 gap-4 p-4 border-b border-gray-200 last:border-0">
                                                 {editingPassenger === passenger._id ? (
                                                     // Editing mode
@@ -668,7 +767,7 @@ export default function MainSection() {
                                                         </div>
                                                         <div className="flex space-x-2">
                                                             <button
-                                                                onClick={() => savePassengerEdit(selectedBooking._id, passenger._id)}
+                                                                onClick={() => savePassengerEdit(selectedBooking?._id, passenger._id)}
                                                                 className="p-1 text-green-600 hover:text-green-800"
                                                                 title="Save"
                                                             >

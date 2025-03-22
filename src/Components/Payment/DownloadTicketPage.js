@@ -21,23 +21,26 @@ const styles = StyleSheet.create({
     bookno: { fontWeight: 'bold', fontSize: 20, textTransform: 'uppercase' },
     booknocontentA: { fontWeight: '400', fontSize: 11, paddingTop: '40px', paddingBottom: '10px' },
     booknocontentb: { fontWeight: '400', fontSize: 11, paddingBottom: '40px' },
-    flightLabel: { fontWeight: 'bold', fontSize: 11, },
+    flightLabel: { fontWeight: 'bolder', fontSize: 11, },
     flightDetail: { flexDirection: "row", alignItems: "center", marginBottom: 20, width: '100%', marginBottom: '50px' },
     flightlog: { width: '60px', marginRight: '50px' },
     flightlogs: { textAlign: 'center' },
-    flightnadetName: { fontWeight: 'bold', fontSize: 9, width: '100%', marginBottom: '5px', textAlign: 'left' },
+    flightName: { fontWeight: 'bolder', fontSize: 12, width: '100%', marginBottom: '5px', textAlign: 'left' },
     flightnadet: { fontWeight: 'bold', fontSize: 8, width: '100%', textAlign: 'left' },
     flightTimeDate: { width: '100px', marginRight: '60px' },
-    flightNo: { fontWeight: '800', fontSize: 19, width: '100%', },
-    flightDate: { fontWeight: 'bold', fontSize: 14, width: '100%', },
-    flightloc: { fontWeight: 'bold', fontSize: 9, width: '100%', textAlign: 'left' },
+    flightNo: { fontWeight: 'bolder', fontSize: 10, width: '100%', marginBottom: '5px' },
+    flightDate: { fontWeight: 'bolder', fontSize: 12, width: '100%', marginBottom: '3px' },
+    codeTime: { display: "flex", flexDirection: "row", alignItems: "center", width: '100%', justifyContent: "space-between" },
+    flightloc: { fontWeight: "heavy", fontSize: 24, width: '40%', marginBottom: '5px' },
     flighthour: { width: '90px', textAlign: 'center' },
     flighticon: { width: '100%', textAlign: 'center' },
-    flighttime: { fontWeight: 'bold', fontSize: 8, width: '100%', textAlign: 'left', width: '100%', textAlign: 'center' },
+    flighttime: { fontWeight: 'bold', fontSize: 10, width: '100%', textAlign: 'left', width: '100%', textAlign: 'center' },
     flightTimeDateb: { width: '100px', marginLeft: '60px' },
-    flightNob: { fontWeight: '800', fontSize: 19, width: '100%', },
-    flightDateb: { fontWeight: 'bold', fontSize: 14, width: '100%', },
-    flightlocb: { fontWeight: 'bold', fontSize: 9, width: '100%', textAlign: 'left' },
+    flightNob: { fontWeight: 'bolder', fontSize: 10, width: '100%', marginBottom: '5px' },
+    flightDateb: { fontWeight: 'bolder', fontSize: 12, width: '100%', marginBottom: '3px' },
+    flightto: { fontWeight: 'bold', fontSize: 10, width: '100%', },
+    flighttob: { fontWeight: 'bold', fontSize: 10, width: '100%', },
+    flightlocb: { fontWeight: "ultrabold", fontSize: 24, width: '40%', marginBottom: '3px' },
     pdetailtable: { marginBottom: 20, width: '100%', marginBottom: '20px' },
     pdetailtableHead: { flexDirection: "row", alignItems: "center", width: '100%', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' },
     pdetailtableHeadName: { width: '208px', fontWeight: 'bold', fontSize: '9', textTransform: 'uprecase' },
@@ -45,17 +48,20 @@ const styles = StyleSheet.create({
     pdetailtableHeadTNo: { width: '150px', fontWeight: 'bold', fontSize: '9', textTransform: 'uprecase' },
     pdetailtableHeadSeat: { width: '150px', fontWeight: 'bold', fontSize: '9', textTransform: 'uprecase' },
 
+    contactInfo: { width: "100%" },
+    flightClass: { fontWeight: 'bolder', fontSize: 8, width: '100%', marginBottom: '1px', textAlign: 'left' },
+    flightNumber : { fontWeight: 'bolder', fontSize: 8, width: '100%', marginBottom: '1px', textAlign: 'left' },
     pdetailtablebody: { flexDirection: "row", alignItems: "center", width: '100%', paddingBottom: '5px' },
     pdetailtablebodySno: { width: '8px', fontWeight: 'bold', fontSize: '9', },
     pdetailtablebodyName: { width: '200px', fontWeight: 'bold', fontSize: '9', },
     pdetailtablebodyPNR: { width: '150px', fontWeight: 'bold', fontSize: '9', },
     pdetailtablebodyTNo: { width: '150px', fontWeight: 'bold', fontSize: '9', },
     pdetailtablebodySeat: { width: '150px', fontWeight: 'bold', fontSize: '9', },
-
+    traveller: { color: "black", fontSize: 15, marginBottom: 10 },
 
     section: { marginBottom: 10, fontSize: 16, },
     label: { fontWeight: 'bold', },
-    termsTitle: { color: "black", fontSize: 30, marginBottom: 20 },
+    termsTitle: { fontWeight: 'bolder', color: "black", fontSize: 30, marginBottom: 20 },
     termSection: { marginBottom: 20, fontSize: 13, lineHeight: 1.3, textAlign: 'justify', color: '#333' },
     termHeading: { fontWeight: "600", color: '#000' },
     footer: { marginTop: 20, textAlign: "center", fontSize: 12, lineHeight: 1.5, fontWeight: 'black' },
@@ -112,14 +118,16 @@ const TicketDocument = ({ ticketData }) => (
                 </View>
             </View>
 
-            <View style={styles.section}>
+            {/* <View style={styles.section}>
                 <Text style={styles.booknoLabel}>Reference ID:</Text>
                 <Text style={styles.bookno}>{ticketData?.
                     referenceId || "N/A"}</Text>
-            </View>
+            </View> */}
             <View style={styles.section}>
                 <Text style={styles.booknocontentA} >Hi Anand,</Text>
-                <Text style={styles.booknocontentb} >Your flight ticket for {ticketData?.travellingDetails.from} - {ticketData?.travellingDetails.to}</Text>
+                <Text style={styles.booknocontentb} >Your flight ticket for {ticketData?.travellingDetails.from} - {ticketData?.travellingDetails.to}. Your
+                    tickets are attached to this email. Your booking reference number is: {ticketData?.
+                        referenceId || "N/A"}</Text>
 
             </View>
             <View style={styles.section}>
@@ -130,108 +138,99 @@ const TicketDocument = ({ ticketData }) => (
                     <View style={styles.flightDetail}>
                         <View style={styles.flightlog}>
                             <Image src={getAirlineLogo(flightDetail?.airline)} alt='' />
-                            <Text style={styles.flightnadetName}>{`${getAirlineName(flightDetail?.airline)}`}</Text>
-                            {/* <Text style={styles.flightnadet}>AI-409</Text>
-                            <Text style={styles.flightnadet}>ECONOMY</Text> */}
+                            <Text style={styles.flightName}>{`${getAirlineName(flightDetail?.airline)}`}</Text>
+                            <Text style={styles.flightNumber}>{ticketData?.flightNumber || "N/A"}</Text>
+                            <Text style={styles.flightClass}>{ticketData?.flightClass || "N/A"}</Text>
+
                         </View>
 
                         <View style={styles.flightTimeDate}>
-                            {/* <Text style={styles.flightnadetName}>{ticketData?.travellingDetails.from}</Text> */}
-                            <Text style={styles.flightNo}>{flightDetail?.cityFrom} {`${flightDetail?.local_departure.split("T")[1].split(".")[0]}`}</Text>
-                            <Text style={styles.flightDate}>{`${flightDetail?.local_departure.split("T")[0]}`}</Text>
-                            <Text style={styles.flightloc}>{flightDetail?.cityCodeFrom}</Text>
+                            <Text style={styles.flightNo}>{flightDetail?.cityFrom}</Text>
+                            <View style={styles.codeTime}>
+                                <Text style={styles.flightloc}>{flightDetail?.cityCodeFrom}</Text>
+                                <Text style={styles.flightloc}>{`${flightDetail?.local_departure.split("T")[1].split(":").slice(0, 2).join(":")}`}
+                                </Text>
+                            </View>
+                            <Text style={styles.flightDate}>{new Date(flightDetail?.local_departure).toLocaleDateString('en-GB', {
+                                weekday: 'short',
+                                day: '2-digit',
+                                month: 'short',
+                                year: '2-digit'
+                            }).toUpperCase()}</Text>
+                            <Text style={styles.flightto}>{ticketData?.travellingDetails.from}</Text>
                         </View>
+
                         <View style={styles.flighthour}>
                             <Text style={styles.flighticon}><Image src={getAirlineLogo(flightDetail?.airline)} alt='' /></Text>
                             <Text style={styles.flighttime}>{`${formatTime(flightDetail?.local_departure, flightDetail?.local_arrival)}`}</Text>
                         </View>
 
                         <View style={styles.flightTimeDateb}>
+                            <Text style={styles.flightNob}>{flightDetail?.cityTo}</Text>
+                            <View style={styles.codeTime}>
+                                <Text style={styles.flightlocb}>{flightDetail?.cityCodeTo}</Text>
+                                <Text style={styles.flightlocb}>{`${flightDetail?.local_arrival.split("T")[1].split(":").slice(0, 2).join(":")}`}
+                                </Text>
+                            </View>
+                            {/* <Text style={styles.flightDateb}>{`${flightDetail?.local_arrival.split("T")[0]}`}</Text> */}
+                            <Text style={styles.flightDateb}>{new Date(flightDetail?.local_arrival).toLocaleDateString('en-GB', {
+                                weekday: 'short',
+                                day: '2-digit',
+                                month: 'short',
+                                year: '2-digit'
+                            }).toUpperCase()}</Text>
+
+                            <Text style={styles.flighttob}>{ticketData?.travellingDetails.to}</Text>
                             {/* <Text style={styles.flightnadetName}>{ticketData?.travellingDetails.to}</Text> */}
-                            <Text style={styles.flightNob}>{flightDetail?.cityTo} {`${flightDetail?.local_arrival.split("T")[1].split(".")[0]}`}</Text>
+                            {/* <Text style={styles.flightNob}>{flightDetail?.cityTo} {`${flightDetail?.local_arrival.split("T")[1].split(".")[0]}`}</Text>
                             <Text style={styles.flightDateb}>{`${flightDetail?.local_arrival.split("T")[0]}`}</Text>
-                            <Text style={styles.flightlocb}>{flightDetail?.cityCodeTo}</Text>
+                            <Text style={styles.flightlocb}>{flightDetail?.cityCodeTo}</Text> */}
                         </View>
+
                     </View>
                 ))
 
             }
 
             <View style={styles.pdetailtable}>
+                <Text style={styles.traveller}>Travellers Info</Text>
                 <View style={styles.pdetailtableHead}>
                     <Text style={styles.pdetailtableHeadName}>PASSENGER NAME</Text>
                     <Text style={styles.pdetailtableHeadPNR}>PNR</Text>
-                    {/* <Text style={styles.pdetailtableHeadTNo}>E-TICKET NO</Text> */}
+                    <Text style={styles.pdetailtableHeadTNo}>E-TICKET NO</Text>
+                    <Text style={styles.pdetailtableHeadTNo}>Seat</Text>
                 </View>
-                {ticketData?.passengers.map((ticketData, index) => (
+                {ticketData?.passengers.map((passengerData, index) => (
                     <View style={styles.pdetailtablebody}>
 
                         <Text style={styles.pdetailtablebodySno}>{index + 1}</Text>
-                        <Text style={styles.pdetailtablebodyName}>{ticketData?.title} {ticketData?.firstName} {ticketData?.lastName}</Text>
+                        <Text style={styles.pdetailtablebodyName}>{passengerData?.title} {passengerData?.firstName} {passengerData?.lastName}</Text>
                         <Text style={styles.pdetailtablebodyPNR}>{ticketData?.pnr || "N/A"}</Text>
-                        {/* <Text style={styles.pdetailtablebodyTNo}>0984722231949</Text> */}
+                        <Text style={styles.pdetailtablebodyTNo}>{ticketData?.
+                            referenceId || "N/A"}</Text>
+                        <Text style={styles.pdetailtablebodyTNo}>Seat</Text>
                     </View>
                 ))}
 
             </View>
-            {/* {
-                ticketData?.travellingDetails.tripType !== "one Way" &&
-                (
-                    <>
-                        <View style={styles.hr}></View>
-                        <View style={styles.section}>
-                            <Text style={styles.flightLabel}>Patna to New Delhi </Text>
-                        </View>
-                        <View style={styles.flightDetail}>
-                            <View style={styles.flightlog}>
-                                <Image src='images/AIC.png' alt='' />
-                                <Text style={styles.flightnadetName}>Air India</Text>
-                                <Text style={styles.flightnadet}>AI-409</Text>
-                                <Text style={styles.flightnadet}>ECONOMY</Text>
-                            </View>
 
-                            <View style={styles.flightTimeDate}>
-                                <Text style={styles.flightnadetName}>Patna </Text>
-                                <Text style={styles.flightNo}>PAT 12:10 </Text>
-                                <Text style={styles.flightDate}>FRI, 18 JUN ‘21</Text>
-                                <Text style={styles.flightloc}>Lok Nayak Jaya Prakash
-                                    Narayan Airport </Text>
-                            </View>
-                            <View style={styles.flighthour}>
-                                <Text style={styles.flighticon}><Image src='images/airplane.png' alt='' /></Text>
-                                <Text style={styles.flighttime}>1h 35m</Text>
-                            </View>
+            <View style={styles.pdetailtableC}>
+                <Text style={styles.traveller}>Contact Info</Text>
+                <View style={styles.pdetailtableHead}>
+                    <Text style={styles.pdetailtableHeadName}>Email</Text>
+                    <Text style={styles.pdetailtableHeadPNR}>Contact</Text>
+                </View>
+                <View style={styles.pdetailtablebody}>
 
-                            <View style={styles.flightTimeDateb}>
-                                <Text style={styles.flightnadetName} New Delhi></Text>
-                                <Text style={styles.flightNob}>DEL 10:35</Text>
-                                <Text style={styles.flightDateb}>FRI, 18 JUN ‘21</Text>
-                                <Text style={styles.flightlocb}>Indira Gandhi Intl Airport Terminal 3</Text>
-                            </View>
-                        </View>
-                        <View style={styles.pdetailtable}>
-                            <View style={styles.pdetailtableHead}>
-                                <Text style={styles.pdetailtableHeadName}>PASSENGER NAME</Text>
-                                <Text style={styles.pdetailtableHeadPNR}>PNR</Text>
-                                <Text style={styles.pdetailtableHeadTNo}>E-TICKET NO</Text>
-                                <Text style={styles.pdetailtableHeadSeat}>SEAT</Text>
-                            </View>
-                            <View style={styles.pdetailtablebody}>
-                                <Text style={styles.pdetailtablebodySno}>1.</Text>
-                                <Text style={styles.pdetailtablebodyName}>Mr. Anand Kumar Singh, Adult</Text>
-                                <Text style={styles.pdetailtablebodyPNR}>YQB5J </Text>
-                                <Text style={styles.pdetailtablebodyTNo}>0984722231949</Text>
-                                <Text style={styles.pdetailtablebodySeat}>Windo Seat</Text>
-                            </View>
-                        </View>
-                    </>
-                )
-            } */}
+                    <Text style={styles.pdetailtablebodyName}>{ticketData?.email}</Text>
+                    <Text style={styles.pdetailtablebodyPNR}>{ticketData?.phone}</Text>
+                </View>
 
-        </Page>
+            </View>
+            {/* </Page> */}
 
-        {/* Second Page with Terms & Conditions */}
-        <Page style={styles.page}>
+            {/* Second Page with Terms & Conditions */}
+            {/* <Page style={styles.page}> */}
             <Text style={styles.termsTitle}>Terms & Conditions</Text>
 
             <View style={styles.termSection}>
