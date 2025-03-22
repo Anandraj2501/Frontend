@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     flighttob: { fontWeight: 'bold', fontSize: 10, width: '100%', },
     flightlocb: { fontWeight: "ultrabold", fontSize: 24, width: '40%', marginBottom: '3px' },
     pdetailtable: { marginBottom: 20, width: '100%', marginBottom: '20px' },
+    pdetailtablec: { marginBottom: 20, width: '100%', marginBottom: '30px' },
     pdetailtableHead: { flexDirection: "row", alignItems: "center", width: '100%', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px'  },
     pdetailtableHeadName: { width: '208px', fontWeight: 'bold', fontSize: '9', textTransform: 'uprecase' },
     pdetailtableHeadPNR: { width: '150px', fontWeight: 'bold', fontSize: '9', textTransform: 'uprecase' },
@@ -139,7 +140,7 @@ const TicketDocument = ({ ticketData }) => (
                         <View style={styles.flightlog}>
                             <Image src={getAirlineLogo(flightDetail?.airline)} alt='' />
                             <Text style={styles.flightName}>{`${getAirlineName(flightDetail?.airline)}`}</Text>
-                            <Text style={styles.flightNumber}>{!flightDetail?.return ? ticketData?.flightNumber.split(",")[0] || "N/A" :  ticketData?.flightNumber.split(",")[1] || "N/A"}</Text>
+                            <Text style={styles.flightNumber}>{!flightDetail?.return ? ticketData?.flightNumber?.split(",")[0] || "N/A" :  ticketData?.flightNumber?.split(",")[1] || "N/A"}</Text>
                             <Text style={styles.flightClass}>{ticketData?.flightClass || "N/A"}</Text>
 
                         </View>
@@ -214,7 +215,7 @@ const TicketDocument = ({ ticketData }) => (
 
             </View>
 
-            <View style={styles.pdetailtableC}>
+            <View style={styles.pdetailtablec}>
                 <Text style={styles.traveller}>Contact Information</Text>
                 <View style={styles.pdetailtableHead}>
                     <Text style={styles.pdetailtableHeadName}>Email</Text>
@@ -227,10 +228,10 @@ const TicketDocument = ({ ticketData }) => (
                 </View>
 
             </View>
-            </Page>
+            {/* </Page> */}
 
             {/* Second Page with Terms & Conditions */}
-            <Page style={styles.page}>
+            {/* <Page style={styles.page}> */}
             <Text style={styles.termsTitle}>Terms & Conditions</Text>
 
             <View style={styles.termSection}>
