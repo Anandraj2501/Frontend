@@ -139,7 +139,7 @@ const TicketDocument = ({ ticketData }) => (
                         <View style={styles.flightlog}>
                             <Image src={getAirlineLogo(flightDetail?.airline)} alt='' />
                             <Text style={styles.flightName}>{`${getAirlineName(flightDetail?.airline)}`}</Text>
-                            <Text style={styles.flightNumber}>{ticketData?.flightNumber || "N/A"}</Text>
+                            <Text style={styles.flightNumber}>{!flightDetail?.return ? ticketData?.flightNumber.split(",")[0] || "N/A" :  ticketData?.flightNumber.split(",")[1] || "N/A"}</Text>
                             <Text style={styles.flightClass}>{ticketData?.flightClass || "N/A"}</Text>
 
                         </View>

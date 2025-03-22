@@ -31,7 +31,8 @@ export default function MainSection() {
     const [editBookingDetails, setEditingBookingDetails] = useState({
         pnr: "",
         flightNumber: "",
-        flightClass: ""
+        flightClass: "",
+        
     });
 
 
@@ -528,6 +529,7 @@ export default function MainSection() {
                                                 <p className="text-gray-900">{selectedBooking?.flightNumber || "NA"}</p> :
                                                 <input
                                                     type="text"
+                                                    placeholder='Enter comma separated value for returning flight'
                                                     value={editBookingDetails?.flightNumber}
                                                     onChange={(e) => setEditingBookingDetails({ ...editBookingDetails, flightNumber: e.target.value })}
                                                     className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
