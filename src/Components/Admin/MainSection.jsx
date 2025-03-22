@@ -508,7 +508,7 @@ export default function MainSection() {
                                                 <input
                                                     type="text"
                                                     value={editBookingDetails?.pnr}
-                                                    onChange={(e) => setPassengerForm({ ...editBookingDetails, pnr: e.target.value })}
+                                                    onChange={(e) => setEditingBookingDetails({ ...editBookingDetails, pnr: e.target.value })}
                                                     className="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
                                                 />
 
