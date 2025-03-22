@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     headtextg: { width: '100%', padding: '5px 0', textAlign: 'right', fontWeight: 'bold', color: 'green', fontSize: 10, },
     headtextp: { width: '100%', padding: '5px 0', textAlign: 'right', fontWeight: '400', color: 'black', fontSize: 10, },
     booknoLabel: { fontWeight: 'bold', fontSize: 10, },
-    bookno: { fontWeight: 'bold', fontSize: 20, textTransform: 'uppercase' },
-    booknocontentA: { fontWeight: '400', fontSize: 11, paddingTop: '40px', paddingBottom: '10px' },
+    bookno: { fontWeight: 'bold', fontSize: 10, textTransform: 'uppercase' },
+    booknocontentA: { fontWeight: '400', fontSize: 11, paddingTop: '10px', paddingBottom: '10px' },
     booknocontentb: { fontWeight: '400', fontSize: 11, paddingBottom: '40px' },
     flightLabel: { fontWeight: 'bolder', fontSize: 11, },
     flightDetail: { flexDirection: "row", alignItems: "center", marginBottom: 20, width: '100%', marginBottom: '50px' },
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     flighttob: { fontWeight: 'bold', fontSize: 10, width: '100%', },
     flightlocb: { fontWeight: "ultrabold", fontSize: 24, width: '40%', marginBottom: '3px' },
     pdetailtable: { marginBottom: 20, width: '100%', marginBottom: '20px' },
-    pdetailtableHead: { flexDirection: "row", alignItems: "center", width: '100%', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' },
+    pdetailtableHead: { flexDirection: "row", alignItems: "center", width: '100%', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px'  },
     pdetailtableHeadName: { width: '208px', fontWeight: 'bold', fontSize: '9', textTransform: 'uprecase' },
     pdetailtableHeadPNR: { width: '150px', fontWeight: 'bold', fontSize: '9', textTransform: 'uprecase' },
     pdetailtableHeadTNo: { width: '150px', fontWeight: 'bold', fontSize: '9', textTransform: 'uprecase' },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 
     section: { marginBottom: 10, fontSize: 16, },
     label: { fontWeight: 'bold', },
-    termsTitle: { fontWeight: 'bolder', color: "black", fontSize: 30, marginBottom: 20 },
+    termsTitle: { fontWeight: 'bolder', color: "black", fontSize: 20, marginBottom: 20 },
     termSection: { marginBottom: 20, fontSize: 13, lineHeight: 1.3, textAlign: 'justify', color: '#333' },
     termHeading: { fontWeight: "600", color: '#000' },
     footer: { marginTop: 20, textAlign: "center", fontSize: 12, lineHeight: 1.5, fontWeight: 'black' },
@@ -112,26 +112,26 @@ const TicketDocument = ({ ticketData }) => (
                 <View style={styles.headRight}>
 
                     <Text style={styles.headtextg}>Booking Confirmed</Text>
-                    <Text style={styles.headtextp}><Text style={styles.label}>Booking Date&Time: </Text>{new Date(ticketData?.createdAt).toLocaleString("en-US")}</Text>
+                    <Text style={styles.headtextp}><Text style={styles.label}>Booking Date & Time: </Text>{new Date(ticketData?.createdAt).toLocaleString("en-US")}</Text>
                     <Text style={styles.headtextp}><Text style={styles.label}>PNR:</Text> {ticketData?.pnr || "N/A"} </Text>
 
                 </View>
             </View>
-
-            {/* <View style={styles.section}>
-                <Text style={styles.booknoLabel}>Reference ID:</Text>
+{/*
+            <View style={styles.section}>
+                <Text style={styles.booknoLabel}>Booking ID: </Text>
                 <Text style={styles.bookno}>{ticketData?.
                     referenceId || "N/A"}</Text>
-            </View> */}
+            </View>*/}
             <View style={styles.section}>
                 <Text style={styles.booknocontentA} >Hi Anand,</Text>
                 <Text style={styles.booknocontentb} >Your flight ticket for {ticketData?.travellingDetails.from} - {ticketData?.travellingDetails.to}. Your
-                    tickets are attached to this email. Your booking reference number is: {ticketData?.
-                        referenceId || "N/A"}</Text>
+                    tickets are attached to this email. Your Booking ID is: <Text style={styles.bookno}>{ticketData?.
+                            referenceId || "N/A"}</Text></Text>
 
             </View>
             <View style={styles.section}>
-                <Text style={styles.flightLabel}>{ticketData?.travellingDetails.from} To {ticketData?.travellingDetails.to}</Text>
+                <Text style={styles.flightLabel}>Flight from {ticketData?.travellingDetails.from} To {ticketData?.travellingDetails.to}</Text>
             </View>
             {
                 ticketData?.flightDetails && ticketData?.flightDetails.map((flightDetail) => (
@@ -193,12 +193,12 @@ const TicketDocument = ({ ticketData }) => (
             }
 
             <View style={styles.pdetailtable}>
-                <Text style={styles.traveller}>Travellers Info</Text>
+                <Text style={styles.traveller}>Traveler Information</Text>
                 <View style={styles.pdetailtableHead}>
                     <Text style={styles.pdetailtableHeadName}>PASSENGER NAME</Text>
                     <Text style={styles.pdetailtableHeadPNR}>PNR</Text>
                     <Text style={styles.pdetailtableHeadTNo}>E-TICKET NO</Text>
-                    <Text style={styles.pdetailtableHeadTNo}>Seat</Text>
+                    <Text style={styles.pdetailtableHeadTNo}>SEAT</Text>
                 </View>
                 {ticketData?.passengers.map((passengerData, index) => (
                     <View style={styles.pdetailtablebody}>
@@ -215,7 +215,7 @@ const TicketDocument = ({ ticketData }) => (
             </View>
 
             <View style={styles.pdetailtableC}>
-                <Text style={styles.traveller}>Contact Info</Text>
+                <Text style={styles.traveller}>Contact Information</Text>
                 <View style={styles.pdetailtableHead}>
                     <Text style={styles.pdetailtableHeadName}>Email</Text>
                     <Text style={styles.pdetailtableHeadPNR}>Contact</Text>
@@ -227,10 +227,10 @@ const TicketDocument = ({ ticketData }) => (
                 </View>
 
             </View>
-            {/* </Page> */}
+            </Page>
 
             {/* Second Page with Terms & Conditions */}
-            {/* <Page style={styles.page}> */}
+            <Page style={styles.page}>
             <Text style={styles.termsTitle}>Terms & Conditions</Text>
 
             <View style={styles.termSection}>
